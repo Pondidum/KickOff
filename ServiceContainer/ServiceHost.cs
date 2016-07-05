@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ServiceProcess;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ServiceContainer
 {
@@ -27,17 +29,41 @@ namespace ServiceContainer
 
 	internal class ServiceWrapper : ServiceBase
 	{
-		private readonly Action _entryPoint;
+		private readonly Task _entryPoint;
+		private readonly CancellationTokenSource _token;
 
 		public ServiceWrapper(string name, Action entryPoint)
 		{
-			_entryPoint = entryPoint;
 			ServiceName = name;
+
+			_token = new CancellationTokenSource();
+			_entryPoint = new Task(() =>
+			{
+				try
+				{
+					entryPoint();
+				}
+				catch (TaskCanceledException)
+				{
+				}
+			}, _token.Token);
 		}
 
 		protected override void OnStart(string[] args)
 		{
-			_entryPoint();
+			_entryPoint.Start();
+		}
+
+		protected override void OnStop()
+		{
+			try
+			{
+				_token.Cancel();
+			}
+			catch (TaskCanceledException)
+			{
+			}
+			
 		}
 	}
 }
