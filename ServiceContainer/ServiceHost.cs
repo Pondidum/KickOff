@@ -5,9 +5,9 @@ namespace ServiceContainer
 {
 	public class ServiceHost
 	{
-		public static void Run(string name, Action entryPoint)
+		public static void Run<TStartup>(string name) where TStartup : IStartup
 		{
-			var service = new ServiceWrapper(name, entryPoint);
+			var service = new ServiceWrapper(name, typeof(TStartup));
 
 			if (Environment.UserInteractive)
 			{

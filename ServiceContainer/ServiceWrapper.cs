@@ -2,6 +2,8 @@ using System;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
+using StructureMap;
+using StructureMap.Graph;
 
 namespace ServiceContainer
 {
@@ -10,16 +12,29 @@ namespace ServiceContainer
 		private readonly Task _entryPoint;
 		private readonly CancellationTokenSource _token;
 
-		public ServiceWrapper(string name, Action entryPoint)
+		public ServiceWrapper(string name, Type entryPoint)
 		{
 			ServiceName = name;
+
+			var container = new Container(c =>
+			{
+				c.Scan(a =>
+				{
+					a.TheCallingAssembly();
+					a.AssemblyContainingType(entryPoint);
+
+					a.LookForRegistries();
+					a.WithDefaultConventions();
+				});
+			});
 
 			_token = new CancellationTokenSource();
 			_entryPoint = new Task(() =>
 			{
 				try
 				{
-					entryPoint();
+					var startup = (IStartup)container.GetInstance(entryPoint);
+					startup.Execute();
 				}
 				catch (TaskCanceledException)
 				{
@@ -46,7 +61,7 @@ namespace ServiceContainer
 			catch (TaskCanceledException)
 			{
 			}
-			
+
 		}
 	}
 }
