@@ -11,12 +11,13 @@ namespace ServiceContainer
 	{
 		private readonly Task _entryPoint;
 		private readonly CancellationTokenSource _token;
+		private Container _container;
 
 		public ServiceWrapper(string name, Type entryPoint)
 		{
 			ServiceName = name;
 
-			var container = new Container(c =>
+			_container = new Container(c =>
 			{
 				c.Scan(a =>
 				{
@@ -33,8 +34,8 @@ namespace ServiceContainer
 			{
 				try
 				{
-					var startup = (IStartup)container.GetInstance(entryPoint);
-					startup.Execute();
+					startup = (IStartup)_container.GetInstance(entryPoint);
+					startup.Execute(args);
 				}
 				catch (TaskCanceledException)
 				{
@@ -60,6 +61,10 @@ namespace ServiceContainer
 			}
 			catch (TaskCanceledException)
 			{
+			}
+			finally
+			{
+				_container.Dispose();
 			}
 
 		}
