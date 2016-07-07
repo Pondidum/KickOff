@@ -2,6 +2,7 @@ using System;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
+using Serilog;
 using StructureMap;
 using StructureMap.Graph;
 
@@ -9,6 +10,8 @@ namespace ServiceContainer
 {
 	internal class ServiceWrapper : ServiceBase
 	{
+		private static readonly ILogger Log = Serilog.Log.ForContext<ServiceWrapper>();
+
 		private readonly Task _entryPoint;
 		private readonly CancellationTokenSource _token;
 		private readonly Container _container;
@@ -16,6 +19,8 @@ namespace ServiceContainer
 
 		public ServiceWrapper(string name, Type entryPoint)
 		{
+			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
 			ServiceName = name;
 
 			_token = new CancellationTokenSource();
@@ -75,8 +80,19 @@ namespace ServiceContainer
 			finally
 			{
 				_container.Dispose();
+				AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;
 			}
+		}
 
+
+		private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			var ex = e.ExceptionObject as Exception;
+
+			if (ex == null)
+				return;
+
+			Log.Error(ex, ex.Message);
 		}
 	}
 }
