@@ -26,9 +26,14 @@ namespace TestService
 		{
 			Console.WriteLine("starting up");
 		}
-		public void Execute()
+
+		public void Execute(ServiceArgs service)
 		{
 			File.AppendAllLines(@"D:\dev\test-projects\ServiceContainer\\log.txt", new[] { "boot!" });
+
+
+			while(service.CancelRequested == false)
+				Thread.Sleep(500);
 		}
 
 		public void Dispose()

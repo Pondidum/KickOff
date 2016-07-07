@@ -17,6 +17,7 @@ namespace ServiceContainer
 		{
 			ServiceName = name;
 
+			_token = new CancellationTokenSource();
 			_container = new Container(c =>
 			{
 				c.Scan(a =>
@@ -29,9 +30,12 @@ namespace ServiceContainer
 				});
 			});
 
-			_token = new CancellationTokenSource();
+			var args = new ServiceArgs(() => _token.IsCancellationRequested);
+
 			_entryPoint = new Task(() =>
 			{
+				IStartup startup = null;
+
 				try
 				{
 					startup = (IStartup)_container.GetInstance(entryPoint);
@@ -39,6 +43,10 @@ namespace ServiceContainer
 				}
 				catch (TaskCanceledException)
 				{
+				}
+				finally
+				{
+					(startup as IDisposable)?.Dispose();
 				}
 			}, _token.Token);
 		}

@@ -17,6 +17,8 @@ namespace ServiceContainer
 				service.Start(new string[0]);
 
 				Console.ReadKey();
+
+				service.Stop();
 			}
 			else
 			{
