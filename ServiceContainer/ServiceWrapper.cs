@@ -11,7 +11,8 @@ namespace ServiceContainer
 	{
 		private readonly Task _entryPoint;
 		private readonly CancellationTokenSource _token;
-		private Container _container;
+		private readonly Container _container;
+		private readonly ServiceArgs _serviceArgs;
 
 		public ServiceWrapper(string name, Type entryPoint)
 		{
@@ -30,7 +31,7 @@ namespace ServiceContainer
 				});
 			});
 
-			var args = new ServiceArgs(() => _token.IsCancellationRequested);
+			_serviceArgs = new ServiceArgs(() => _token.IsCancellationRequested);
 
 			_entryPoint = new Task(() =>
 			{
@@ -39,7 +40,7 @@ namespace ServiceContainer
 				try
 				{
 					startup = (IStartup)_container.GetInstance(entryPoint);
-					startup.Execute(args);
+					startup.Execute(_serviceArgs);
 				}
 				catch (TaskCanceledException)
 				{
@@ -58,6 +59,7 @@ namespace ServiceContainer
 
 		protected override void OnStart(string[] args)
 		{
+			_serviceArgs.StartArgs = args;
 			_entryPoint.Start();
 		}
 
