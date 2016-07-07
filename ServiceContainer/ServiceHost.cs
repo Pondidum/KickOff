@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.ServiceProcess;
+using Serilog;
 
 namespace ServiceContainer
 {
@@ -7,6 +9,8 @@ namespace ServiceContainer
 	{
 		public static void Run<TStartup>(string name) where TStartup : IStartup
 		{
+			ConfigureLogging(name);
+
 			var service = new ServiceWrapper(name, typeof(TStartup));
 
 			if (Environment.UserInteractive)
@@ -22,10 +26,23 @@ namespace ServiceContainer
 			}
 			else
 			{
-				
-
 				ServiceBase.Run(service);
 			}
+		}
+
+		private static void ConfigureLogging(string serviceName)
+		{
+			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+			var logs = Path.Combine(baseDirectory, "logs");
+
+			Directory.CreateDirectory(logs);
+
+			Log.Logger = new LoggerConfiguration()
+				.Enrich.FromLogContext()
+				.Enrich.WithProperty("SoftwareName", serviceName)
+				.WriteTo.ColoredConsole()
+				.WriteTo.RollingFile(logs)
+				.CreateLogger();
 		}
 	}
 }
