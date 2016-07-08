@@ -24,17 +24,6 @@ namespace ServiceContainer
 			ServiceName = name;
 
 			_token = new CancellationTokenSource();
-			_container = new Container(c =>
-			{
-				c.Scan(a =>
-				{
-					a.TheCallingAssembly();
-					a.AssemblyContainingType(entryPoint);
-
-					a.LookForRegistries();
-					a.WithDefaultConventions();
-				});
-			});
 
 			_serviceArgs = new ServiceArgs(() => _token.IsCancellationRequested);
 

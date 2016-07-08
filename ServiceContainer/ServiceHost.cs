@@ -2,6 +2,8 @@
 using System.IO;
 using System.ServiceProcess;
 using Serilog;
+using StructureMap;
+using StructureMap.Graph;
 
 namespace ServiceContainer
 {
@@ -9,9 +11,23 @@ namespace ServiceContainer
 	{
 		public static void Run<TStartup>(string name) where TStartup : IStartup
 		{
-			ConfigureLogging(name);
+			var container = new Container(c =>
+			{
+				c.Scan(a =>
+				{
+					a.TheCallingAssembly();
+					a.AssemblyContainingType<TStartup>();
 
-			var service = new ServiceWrapper(name, typeof(TStartup));
+					a.LookForRegistries();
+					a.WithDefaultConventions();
+				});
+			});
+
+			var config = container.TryGetInstance<ILogConfig>();
+
+			ConfigureLogging(config, name);
+
+			var service = new ServiceWrapper(container, name, typeof(TStartup));
 
 			if (Environment.UserInteractive)
 			{
@@ -30,19 +46,23 @@ namespace ServiceContainer
 			}
 		}
 
-		private static void ConfigureLogging(string serviceName)
+		private static void ConfigureLogging(ILogConfig config, string serviceName)
 		{
 			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 			var logs = Path.Combine(baseDirectory, "logs");
 
 			Directory.CreateDirectory(logs);
 
-			Log.Logger = new LoggerConfiguration()
+			var logConfig = new LoggerConfiguration()
 				.Enrich.FromLogContext()
 				.Enrich.WithProperty("SoftwareName", serviceName)
 				.WriteTo.ColoredConsole()
-				.WriteTo.RollingFile(logs)
-				.CreateLogger();
+				.WriteTo.RollingFile(logs);
+
+			//if ( config != null && config.EnableKibana)
+			//logConfig.WriteTo.Ela
+
+			Log.Logger = logConfig.CreateLogger();
 		}
 	}
 }
