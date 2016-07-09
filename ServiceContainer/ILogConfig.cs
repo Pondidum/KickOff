@@ -1,8 +1,10 @@
-﻿namespace ServiceContainer
+﻿using System;
+
+namespace ServiceContainer
 {
 	public interface ILogConfig
 	{
-		string LoggingEndpoint { get; set; }
-		bool EnableKibana { get; set; }
+		bool EnableKibana { get; }
+		Uri LoggingEndpoint { get; }
 	}
 }

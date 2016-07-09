@@ -2,6 +2,7 @@
 using System.IO;
 using System.ServiceProcess;
 using Serilog;
+using Serilog.Sinks.Elasticsearch;
 using StructureMap;
 using StructureMap.Graph;
 
@@ -59,8 +60,8 @@ namespace ServiceContainer
 				.WriteTo.ColoredConsole()
 				.WriteTo.RollingFile(logs);
 
-			//if ( config != null && config.EnableKibana)
-			//logConfig.WriteTo.Ela
+			if (config != null && config.EnableKibana)
+				logConfig.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(config.LoggingEndpoint) { AutoRegisterTemplate = true });
 
 			Log.Logger = logConfig.CreateLogger();
 		}

@@ -14,11 +14,12 @@ namespace ServiceContainer
 
 		private readonly Task _entryPoint;
 		private readonly CancellationTokenSource _token;
-		private readonly Container _container;
+		private readonly IContainer _container;
 		private readonly ServiceArgs _serviceArgs;
 
-		public ServiceWrapper(string name, Type entryPoint)
+		public ServiceWrapper(IContainer container, string name, Type entryPoint)
 		{
+			_container = container;
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
 			ServiceName = name;
