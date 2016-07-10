@@ -2,6 +2,7 @@ using System;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
+using Consul;
 using Serilog;
 using StructureMap;
 using StructureMap.Graph;
@@ -54,6 +55,14 @@ namespace ServiceContainer
 
 		protected override void OnStart(string[] args)
 		{
+			var registration = _container.TryGetInstance<IConsulRegistration>();
+
+			if (registration != null)
+			{
+				var client = new ConsulClient();
+				client.Catalog.Register(registration.CreateRegistration());
+			}
+
 			_serviceArgs.StartArgs = args;
 			_entryPoint.Start();
 		}
@@ -71,6 +80,15 @@ namespace ServiceContainer
 			{
 				_container.Dispose();
 				AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;
+
+				var registration = _container.TryGetInstance<IConsulRegistration>();
+
+				if (registration != null)
+				{
+					var client = new ConsulClient();
+					client.Catalog.Deregister(registration.CreateDeregistration());
+				}
+
 			}
 		}
 
