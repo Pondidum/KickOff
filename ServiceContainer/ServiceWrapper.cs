@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace ServiceContainer
 	{
 		public IContainer Container { get; set; }
 
-		public abstract void Execute(Action next);
+		public abstract void Execute();
 		public abstract void Dispose();
 	}
 
@@ -22,11 +23,9 @@ namespace ServiceContainer
 	{
 		private static readonly ILogger Log = Serilog.Log.ForContext<ServiceWrapper>();
 
-		public override void Execute(Action next)
+		public override void Execute()
 		{
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-
-			next();
 		}
 
 		private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -47,7 +46,7 @@ namespace ServiceContainer
 
 	public class ConsulStage : Stage
 	{
-		public override void Execute(Action next)
+		public override void Execute()
 		{
 			var registration = Container.TryGetInstance<IConsulRegistration>();
 
@@ -72,72 +71,16 @@ namespace ServiceContainer
 
 	public class EndStage : Stage
 	{
-		public EndStage(Action entryPoint)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void Execute(Action next)
-		{
-		}
-
-		public override void Dispose()
-		{
-		}
-	}
-
-	public class Pipeline : IDisposable
-	{
-		private readonly Stack<Stage> _stages;
-
-		public Pipeline()
-		{
-			_stages = new Stack<Stage>();
-		} 
-
-		public void Execute(IContainer container, Action entryPoint)
-		{
-			var stages = new Stage[] { new LoggingStage(), new ConsulStage(), new EndStage(entryPoint) };
-
-			foreach (var stage in stages)
-			{
-				// implement! 
-
-				//stage.Execute(...)
-				_stages.Push(stage);
-			}
-		}
-
-		public void Dispose()
-		{
-			Stage stage;
-			while ((stage = _stages.Pop()) != null)
-			{
-				stage.Dispose();
-			}
-		}
-	}
-
-
-	internal class ServiceWrapper : ServiceBase
-	{
-		private static readonly ILogger Log = Serilog.Log.ForContext<ServiceWrapper>();
-
-		private readonly Task _entryPoint;
-		private readonly CancellationTokenSource _token;
-		private readonly IContainer _container;
+		private readonly CancellationTokenSource _source;
 		private readonly ServiceArgs _serviceArgs;
+		private readonly Task _entryPoint;
 
-		public ServiceWrapper(IContainer container, string name, Type entryPoint)
+		public EndStage(Type entryPoint, string[] startArgs)
 		{
-			_container = container;
-			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
-			ServiceName = name;
+			_source = new CancellationTokenSource();
 
-			_token = new CancellationTokenSource();
-
-			_serviceArgs = new ServiceArgs(() => _token.IsCancellationRequested);
+			_serviceArgs = new ServiceArgs(startArgs, () => _source.IsCancellationRequested);
 
 			_entryPoint = new Task(() =>
 			{
@@ -145,7 +88,7 @@ namespace ServiceContainer
 
 				try
 				{
-					startup = (IStartup)_container.GetInstance(entryPoint);
+					startup = (IStartup)Container.GetInstance(entryPoint);
 					startup.Execute(_serviceArgs);
 				}
 				catch (TaskCanceledException)
@@ -155,7 +98,72 @@ namespace ServiceContainer
 				{
 					(startup as IDisposable)?.Dispose();
 				}
-			}, _token.Token);
+			}, _source.Token);
+		}
+
+		public override void Execute()
+		{
+			_entryPoint.Start();
+		}
+
+		public override void Dispose()
+		{
+			try
+			{
+				_source.Cancel();
+			}
+			catch (TaskCanceledException)
+			{
+			}
+		}
+	}
+
+	public class Pipeline : IDisposable
+	{
+		private readonly List<Stage> _stages;
+		private readonly IContainer _container;
+
+		public Pipeline(IContainer container)
+		{
+			_stages = new List<Stage>();
+			_container = container;
+		}
+
+		public void Execute(Type entryPoint, string[] startArgs)
+		{
+			var stages = new Stage[] { new LoggingStage(), new ConsulStage(), new EndStage(entryPoint, startArgs) };
+
+			foreach (var stage in stages)
+			{
+				stage.Container = _container;
+				stage.Execute();
+			}
+
+			_stages.AddRange(stages);
+		}
+
+		public void Dispose()
+		{
+			_stages.Reverse();
+			foreach (var stage in _stages)
+			{
+				stage.Dispose();
+			}
+		}
+	}
+
+
+	internal class ServiceWrapper : ServiceBase
+	{
+		private readonly Type _entryPoint;
+		private readonly Pipeline _pipeline;
+
+		public ServiceWrapper(IContainer container, string name, Type entryPoint)
+		{
+			ServiceName = name;
+
+			_entryPoint = entryPoint;
+			_pipeline = new Pipeline(container);
 		}
 
 		public void Start(string[] args)
@@ -165,52 +173,12 @@ namespace ServiceContainer
 
 		protected override void OnStart(string[] args)
 		{
-			var registration = _container.TryGetInstance<IConsulRegistration>();
-
-			if (registration != null)
-			{
-				var client = new ConsulClient();
-				client.Catalog.Register(registration.CreateRegistration());
-			}
-
-			_serviceArgs.StartArgs = args;
-			_entryPoint.Start();
+			_pipeline.Execute(_entryPoint, args);
 		}
 
 		protected override void OnStop()
 		{
-			try
-			{
-				_token.Cancel();
-			}
-			catch (TaskCanceledException)
-			{
-			}
-			finally
-			{
-				_container.Dispose();
-				AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;
-
-				var registration = _container.TryGetInstance<IConsulRegistration>();
-
-				if (registration != null)
-				{
-					var client = new ConsulClient();
-					client.Catalog.Deregister(registration.CreateDeregistration());
-				}
-
-			}
-		}
-
-
-		private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
-		{
-			var ex = e.ExceptionObject as Exception;
-
-			if (ex == null)
-				return;
-
-			Log.Error(ex, ex.Message);
+			_pipeline.Dispose();
 		}
 	}
 }
