@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,115 @@ using StructureMap.Graph;
 
 namespace ServiceContainer
 {
+	public abstract class Stage : IDisposable
+	{
+		public IContainer Container { get; set; }
+
+		public abstract void Execute(Action next);
+		public abstract void Dispose();
+	}
+
+	public class LoggingStage : Stage
+	{
+		private static readonly ILogger Log = Serilog.Log.ForContext<ServiceWrapper>();
+
+		public override void Execute(Action next)
+		{
+			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
+			next();
+		}
+
+		private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			var ex = e.ExceptionObject as Exception;
+
+			if (ex == null)
+				return;
+
+			Log.Error(ex, ex.Message);
+		}
+
+		public override void Dispose()
+		{
+			AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;
+		}
+	}
+
+	public class ConsulStage : Stage
+	{
+		public override void Execute(Action next)
+		{
+			var registration = Container.TryGetInstance<IConsulRegistration>();
+
+			if (registration != null)
+			{
+				var client = new ConsulClient();
+				client.Catalog.Register(registration.CreateRegistration());
+			}
+		}
+
+		public override void Dispose()
+		{
+			var registration = Container.TryGetInstance<IConsulRegistration>();
+
+			if (registration != null)
+			{
+				var client = new ConsulClient();
+				client.Catalog.Deregister(registration.CreateDeregistration());
+			}
+		}
+	}
+
+	public class EndStage : Stage
+	{
+		public EndStage(Action entryPoint)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Execute(Action next)
+		{
+		}
+
+		public override void Dispose()
+		{
+		}
+	}
+
+	public class Pipeline : IDisposable
+	{
+		private readonly Stack<Stage> _stages;
+
+		public Pipeline()
+		{
+			_stages = new Stack<Stage>();
+		} 
+
+		public void Execute(IContainer container, Action entryPoint)
+		{
+			var stages = new Stage[] { new LoggingStage(), new ConsulStage(), new EndStage(entryPoint) };
+
+			foreach (var stage in stages)
+			{
+				// implement! 
+
+				//stage.Execute(...)
+				_stages.Push(stage);
+			}
+		}
+
+		public void Dispose()
+		{
+			Stage stage;
+			while ((stage = _stages.Pop()) != null)
+			{
+				stage.Dispose();
+			}
+		}
+	}
+
+
 	internal class ServiceWrapper : ServiceBase
 	{
 		private static readonly ILogger Log = Serilog.Log.ForContext<ServiceWrapper>();
