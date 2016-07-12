@@ -12,21 +12,7 @@ namespace ServiceContainer
 	{
 		public static void Run<TStartup>(string name) where TStartup : IStartup
 		{
-			var container = new Container(c =>
-			{
-				c.Scan(a =>
-				{
-					a.TheCallingAssembly();
-					a.AssemblyContainingType<TStartup>();
-
-					a.LookForRegistries();
-					a.WithDefaultConventions();
-				});
-			});
-
-			var config = container.TryGetInstance<ILogConfig>();
-
-			var service = new ServiceWrapper(container, name, typeof(TStartup));
+			var service = new ServiceWrapper(name, typeof(TStartup));
 
 			if (Environment.UserInteractive)
 			{

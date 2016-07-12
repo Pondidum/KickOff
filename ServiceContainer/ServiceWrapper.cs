@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceProcess;
 using ServiceContainer.Stages;
 using StructureMap;
+using StructureMap.Graph;
 
 namespace ServiceContainer
 {
@@ -13,9 +14,11 @@ namespace ServiceContainer
 		private readonly Pipeline _pipeline;
 		private readonly IEnumerable<Stage> _stages;
 
-		public ServiceWrapper(IContainer container, string name, Type entryPoint)
+		public ServiceWrapper(string name, Type entryPoint)
 		{
 			ServiceName = name;
+
+			var container = CreateContainer(entryPoint);
 
 			_entryPoint = entryPoint;
 			_pipeline = new Pipeline(container);
@@ -40,6 +43,21 @@ namespace ServiceContainer
 		protected override void OnStop()
 		{
 			_pipeline.Dispose();
+		}
+
+		private static IContainer CreateContainer(Type entryPoint)
+		{
+			return new Container(c =>
+			{
+				c.Scan(a =>
+				{
+					a.TheCallingAssembly();
+					a.AssemblyContainingType(entryPoint);
+
+					a.LookForRegistries();
+					a.WithDefaultConventions();
+				});
+			});
 		}
 	}
 }
