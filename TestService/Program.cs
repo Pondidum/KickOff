@@ -20,6 +20,11 @@ namespace TestService
 		}
 	}
 
+	public class Config
+	{
+		public string LoggingEndpoint { get; set; }
+		public bool EnableKibana { get; set; }
+	}
 	public class LogWriter : IStartup, IDisposable
 	{
 		public LogWriter()
