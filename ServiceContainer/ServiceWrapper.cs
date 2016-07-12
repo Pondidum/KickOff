@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
 using System.ServiceProcess;
 using StructureMap;
-using StructureMap.Graph;
 
 namespace ServiceContainer
 {
@@ -13,9 +11,9 @@ namespace ServiceContainer
 
 		public ServiceWrapper(IContainer container, string name, Type entryPoint)
 		{
-			_entryPoint = entryPoint;
 			ServiceName = name;
-			
+
+			_entryPoint = entryPoint;
 			_pipeline = new Pipeline(container);
 		}
 

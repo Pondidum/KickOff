@@ -8,7 +8,7 @@ using StructureMap.Graph;
 
 namespace ServiceContainer
 {
-	public class ServiceHost
+	public static class ServiceHost
 	{
 		public static void Run<TStartup>(string name) where TStartup : IStartup
 		{

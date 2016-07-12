@@ -5,7 +5,7 @@ namespace ServiceContainer
 	public class ServiceArgs
 	{
 		public bool CancelRequested => _checkForCancel();
-		public string[] StartArgs { get; private set; }
+		public string[] StartArgs { get; }
 
 		private readonly Func<bool> _checkForCancel;
 
