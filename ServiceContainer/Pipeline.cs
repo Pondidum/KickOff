@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ServiceContainer.Stages;
 using StructureMap;
 
 namespace ServiceContainer
@@ -15,10 +16,8 @@ namespace ServiceContainer
 			_container = container;
 		}
 
-		public void Execute(Type entryPoint, string[] startArgs)
+		public void Execute(IEnumerable<Stage> stages)
 		{
-			var stages = new Stage[] { new LoggingStage(), new ConsulStage(), new RunnerStage(entryPoint, startArgs) };
-
 			foreach (var stage in stages)
 			{
 				stage.Container = _container;

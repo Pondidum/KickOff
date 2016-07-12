@@ -26,8 +26,6 @@ namespace ServiceContainer
 
 			var config = container.TryGetInstance<ILogConfig>();
 
-			ConfigureLogging(config, name);
-
 			var service = new ServiceWrapper(container, name, typeof(TStartup));
 
 			if (Environment.UserInteractive)
@@ -45,25 +43,6 @@ namespace ServiceContainer
 			{
 				ServiceBase.Run(service);
 			}
-		}
-
-		private static void ConfigureLogging(ILogConfig config, string serviceName)
-		{
-			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-			var logs = Path.Combine(baseDirectory, "logs");
-
-			Directory.CreateDirectory(logs);
-
-			var logConfig = new LoggerConfiguration()
-				.Enrich.FromLogContext()
-				.Enrich.WithProperty("SoftwareName", serviceName)
-				.WriteTo.ColoredConsole()
-				.WriteTo.RollingFile(logs);
-
-			if (config != null && config.EnableKibana)
-				logConfig.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(config.LoggingEndpoint) { AutoRegisterTemplate = true });
-
-			Log.Logger = logConfig.CreateLogger();
 		}
 	}
 }

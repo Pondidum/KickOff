@@ -1,14 +1,38 @@
 using System;
+using System.IO;
 using Serilog;
+using Serilog.Sinks.Elasticsearch;
 
 namespace ServiceContainer.Stages
 {
 	public class LoggingStage : Stage
 	{
-		private static readonly ILogger Log = Serilog.Log.ForContext<ServiceWrapper>();
+		private readonly string _serviceName;
+
+		public LoggingStage(string serviceName)
+		{
+			_serviceName = serviceName;
+		}
 
 		public override void Execute()
 		{
+			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+			var logs = Path.Combine(baseDirectory, "logs");
+
+			Directory.CreateDirectory(logs);
+
+			var logConfig = new LoggerConfiguration()
+				.Enrich.FromLogContext()
+				.Enrich.WithProperty("SoftwareName", _serviceName)
+				.WriteTo.ColoredConsole()
+				.WriteTo.RollingFile(logs);
+
+			var config = Container.TryGetInstance<ILogConfig>();
+			if (config != null && config.EnableKibana)
+				logConfig.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(config.LoggingEndpoint) { AutoRegisterTemplate = true });
+
+			Log.Logger = logConfig.CreateLogger();
+
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 		}
 
@@ -19,7 +43,7 @@ namespace ServiceContainer.Stages
 			if (ex == null)
 				return;
 
-			Log.Error(ex, ex.Message);
+			Log.ForContext<ServiceWrapper>().Error(ex, ex.Message);
 		}
 
 		public override void Dispose()

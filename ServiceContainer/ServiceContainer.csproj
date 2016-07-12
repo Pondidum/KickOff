@@ -69,25 +69,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsulStage.cs" />
-    <Compile Include="EndStage.cs" />
+    <Compile Include="Stages\ConsulStage.cs" />
+    <Compile Include="Stages\RunnerStage.cs" />
     <Compile Include="IConsulRegistration.cs" />
     <Compile Include="ILogConfig.cs" />
     <Compile Include="IStartup.cs" />
-    <Compile Include="LoggingStage.cs" />
+    <Compile Include="Stages\LoggingStage.cs" />
     <Compile Include="Pipeline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceArgs.cs" />
     <Compile Include="ServiceHost.cs" />
-    <Compile Include="ServiceWrapper.cs" />
+    <Compile Include="ServiceWrapper.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Stage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Stages\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
