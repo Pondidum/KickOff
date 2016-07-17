@@ -22,9 +22,9 @@ namespace ServiceContainer
 			{
 				stage.Container = _container;
 				stage.Execute();
-			}
 
-			_stages.AddRange(stages);
+				_stages.Add(stage);
+			}
 		}
 
 		public void Dispose()
