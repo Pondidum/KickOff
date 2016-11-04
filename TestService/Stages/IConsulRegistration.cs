@@ -1,6 +1,6 @@
 using Consul;
 
-namespace ServiceContainer
+namespace TestService.Stages
 {
 	public interface IConsulRegistration
 	{

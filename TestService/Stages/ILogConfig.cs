@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ServiceContainer
+namespace TestService.Stages
 {
 	public interface ILogConfig
 	{
