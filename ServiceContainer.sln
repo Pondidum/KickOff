@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceContainer", "Service
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestService", "TestService\TestService.csproj", "{ABF1714B-B340-402E-9DED-F6BE9F666C47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KickOff", "KickOff\KickOff.csproj", "{F6785918-8851-4437-BEE1-A88521EB630B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{ABF1714B-B340-402E-9DED-F6BE9F666C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABF1714B-B340-402E-9DED-F6BE9F666C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABF1714B-B340-402E-9DED-F6BE9F666C47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6785918-8851-4437-BEE1-A88521EB630B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6785918-8851-4437-BEE1-A88521EB630B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6785918-8851-4437-BEE1-A88521EB630B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6785918-8851-4437-BEE1-A88521EB630B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
