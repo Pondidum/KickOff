@@ -8,36 +8,31 @@ namespace ServiceContainer.Stages
 	{
 		private readonly CancellationTokenSource _source;
 		private readonly ServiceArgs _serviceArgs;
-		private readonly Task _entryPoint;
+		private readonly Task _runner;
+		private IStartup _startup;
 
-		public RunnerStage(Type entryPoint, string[] startArgs)
+		public RunnerStage(string[] startArgs)
 		{
 			_source = new CancellationTokenSource();
 
 			_serviceArgs = new ServiceArgs(startArgs, () => _source.IsCancellationRequested);
 
-			_entryPoint = new Task(() =>
+			_runner = new Task(() =>
 			{
-				IStartup startup = null;
-
 				try
 				{
-					startup = (IStartup)TryGetInstance(entryPoint);
-					startup.Execute(_serviceArgs);
+					_startup.Execute(_serviceArgs);
 				}
 				catch (TaskCanceledException)
 				{
-				}
-				finally
-				{
-					(startup as IDisposable)?.Dispose();
 				}
 			}, _source.Token);
 		}
 
 		public override void Execute()
 		{
-			_entryPoint.Start();
+			_startup = TryGetInstance<IStartup>();
+			_runner.Start();
 		}
 
 		public override void Dispose()
@@ -45,10 +40,13 @@ namespace ServiceContainer.Stages
 			try
 			{
 				_source.Cancel();
+				_runner.Wait();
 			}
 			catch (TaskCanceledException)
 			{
 			}
+
+			(_startup as IDisposable)?.Dispose();
 		}
 	}
 }

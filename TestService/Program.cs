@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Consul;
 using ServiceContainer;
+using TestService.Stages;
 
 namespace TestService
 {
@@ -15,7 +11,12 @@ namespace TestService
 		static void Main(string[] args)
 		{
 
-			ServiceHost.Run<LogWriter>("TestService");
+			ServiceHost.Run("TestService", new Stage[]
+			{
+				new ConfigureContainerStage(),
+				new LoggingStage("TestService"),
+				new ConsulStage(),  
+			});
 		}
 	}
 
@@ -56,11 +57,15 @@ namespace TestService
 
 		public void Execute(ServiceArgs service)
 		{
-			File.AppendAllLines(@"D:\dev\test-projects\ServiceContainer\\log.txt", new[] { "boot!" });
-
+			Console.WriteLine("Started!");
 
 			while (service.CancelRequested == false)
-				Thread.Sleep(500);
+			{
+				Console.Write(".");
+				Thread.Sleep(1000);
+			}
+
+			Console.WriteLine();
 		}
 
 		public void Dispose()

@@ -2,8 +2,9 @@ using System;
 using System.IO;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
+using ServiceContainer;
 
-namespace ServiceContainer.Stages
+namespace TestService.Stages
 {
 	public class LoggingStage : Stage
 	{
@@ -43,7 +44,7 @@ namespace ServiceContainer.Stages
 			if (ex == null)
 				return;
 
-			Log.ForContext<ServiceWrapper>().Error(ex, ex.Message);
+			Log.ForContext<LoggingStage>().Error(ex, ex.Message);
 		}
 
 		public override void Dispose()

@@ -1,18 +1,14 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
 using System.ServiceProcess;
-using Serilog;
-using Serilog.Sinks.Elasticsearch;
-using StructureMap;
-using StructureMap.Graph;
 
 namespace ServiceContainer
 {
 	public static class ServiceHost
 	{
-		public static void Run<TStartup>(string name) where TStartup : IStartup
+		public static void Run(string name, IEnumerable<Stage> stages)
 		{
-			var service = new ServiceWrapper(name, typeof(TStartup));
+			var service = new ServiceWrapper(name, stages);
 
 			if (Environment.UserInteractive)
 			{

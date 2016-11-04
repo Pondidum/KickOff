@@ -1,6 +1,7 @@
 using Consul;
+using ServiceContainer;
 
-namespace ServiceContainer.Stages
+namespace TestService.Stages
 {
 	public class ConsulStage : Stage
 	{

@@ -1,7 +1,9 @@
+using ServiceContainer;
 using StructureMap;
 using StructureMap.Graph;
+using StructureMap.Graph.Scanning;
 
-namespace ServiceContainer.Stages
+namespace TestService.Stages
 {
 	public class ConfigureContainerStage : Stage
 	{
@@ -15,11 +17,10 @@ namespace ServiceContainer.Stages
 				{
 					a.TheCallingAssembly();
 					a.LookForRegistries();
-
+					
 					a.Convention<AllInterfacesConvention>();
 					a.WithDefaultConventions();
 				});
-
 			});
 
 			InstanceFactory = _container.TryGetInstance;
@@ -28,6 +29,19 @@ namespace ServiceContainer.Stages
 		public override void Dispose()
 		{
 			_container?.Dispose();
+		}
+
+		private class AllInterfacesConvention : IRegistrationConvention
+		{
+			public void ScanTypes(TypeSet types, Registry registry)
+			{
+				// Only work on concrete types
+				var classes = types.FindTypes(TypeClassification.Concretes | TypeClassification.Closed);
+
+				foreach (var type in classes)
+					foreach (var @interface in type.GetInterfaces())
+						registry.For(@interface).Use(type);
+			}
 		}
 	}
 }

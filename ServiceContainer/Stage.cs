@@ -13,10 +13,5 @@ namespace ServiceContainer
 		{
 			return (T)InstanceFactory(typeof(T));
 		}
-
-		protected object TryGetInstance(Type type)
-		{
-			return InstanceFactory(type);
-		}
 	}
 }
