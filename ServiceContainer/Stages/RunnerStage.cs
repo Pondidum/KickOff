@@ -22,7 +22,7 @@ namespace ServiceContainer.Stages
 
 				try
 				{
-					startup = (IStartup)Container.GetInstance(entryPoint);
+					startup = (IStartup)TryGetInstance(entryPoint);
 					startup.Execute(_serviceArgs);
 				}
 				catch (TaskCanceledException)

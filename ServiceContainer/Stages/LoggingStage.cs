@@ -27,7 +27,7 @@ namespace ServiceContainer.Stages
 				.WriteTo.ColoredConsole()
 				.WriteTo.RollingFile(logs);
 
-			var config = Container.TryGetInstance<ILogConfig>();
+			var config = TryGetInstance<ILogConfig>();
 			if (config != null && config.EnableKibana)
 				logConfig.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(config.LoggingEndpoint) { AutoRegisterTemplate = true });
 

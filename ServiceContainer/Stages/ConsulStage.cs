@@ -6,7 +6,7 @@ namespace ServiceContainer.Stages
 	{
 		public override void Execute()
 		{
-			var registration = Container.TryGetInstance<IConsulRegistration>();
+			var registration = TryGetInstance<IConsulRegistration>();
 
 			if (registration != null)
 			{
@@ -17,7 +17,7 @@ namespace ServiceContainer.Stages
 
 		public override void Dispose()
 		{
-			var registration = Container.TryGetInstance<IConsulRegistration>();
+			var registration = TryGetInstance<IConsulRegistration>();
 
 			if (registration != null)
 			{
