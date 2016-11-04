@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ServiceContainer.Stages;
 using StructureMap;
 
 namespace ServiceContainer
@@ -20,7 +19,7 @@ namespace ServiceContainer
 		{
 			foreach (var stage in stages)
 			{
-				stage.Container = _container;
+				stage.SetInstanceFactory(_container.GetInstance);
 				stage.Execute();
 
 				_stages.Add(stage);
