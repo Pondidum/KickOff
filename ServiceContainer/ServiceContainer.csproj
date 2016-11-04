@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Stages\ConfigureContainerStage.cs" />
     <Compile Include="Stages\ConsulStage.cs" />
     <Compile Include="Stages\RunnerStage.cs" />
     <Compile Include="IConsulRegistration.cs" />

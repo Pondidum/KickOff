@@ -1,27 +1,27 @@
 using System;
 using System.Collections.Generic;
-using StructureMap;
 
 namespace ServiceContainer
 {
 	public class Pipeline : IDisposable
 	{
 		private readonly List<Stage> _stages;
-		private readonly IContainer _container;
 
-		public Pipeline(IContainer container)
+		public Pipeline()
 		{
 			_stages = new List<Stage>();
-			_container = container;
 		}
 
 		public void Execute(IEnumerable<Stage> stages)
 		{
+			Func<Type, object> factory = type => type.GetConstructor(Type.EmptyTypes).Invoke(null);
+
 			foreach (var stage in stages)
 			{
-				stage.SetInstanceFactory(_container.GetInstance);
+				stage.InstanceFactory = factory;
 				stage.Execute();
 
+				factory = stage.InstanceFactory;
 				_stages.Add(stage);
 			}
 		}

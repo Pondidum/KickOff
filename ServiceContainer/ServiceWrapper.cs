@@ -19,13 +19,12 @@ namespace ServiceContainer
 		{
 			ServiceName = name;
 
-			var container = CreateContainer(entryPoint);
-
 			_entryPoint = entryPoint;
-			_pipeline = new Pipeline(container);
+			_pipeline = new Pipeline();
 
 			_stages = new Stage[]
 			{
+				new ConfigureContainerStage(),
 				new LoggingStage(name),
 				new ConsulStage()
 			};
@@ -44,24 +43,6 @@ namespace ServiceContainer
 		protected override void OnStop()
 		{
 			_pipeline.Dispose();
-		}
-
-		private static IContainer CreateContainer(Type entryPoint)
-		{
-			return new Container(c =>
-			{
-				c.Scan(a =>
-				{
-					a.TheCallingAssembly();
-					a.AssemblyContainingType(entryPoint);
-
-					a.LookForRegistries();
-
-					a.Convention<AllInterfacesConvention>();
-					a.WithDefaultConventions();
-				});
-
-			});
 		}
 	}
 
