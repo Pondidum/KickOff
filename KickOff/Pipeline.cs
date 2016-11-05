@@ -28,11 +28,8 @@ namespace KickOff
 
 		public void Dispose()
 		{
-			_stages.Reverse();
-			foreach (var stage in _stages)
-			{
-				stage.Dispose();
-			}
+			for (var i = _stages.Count - 1; i >= 0; i--)
+				_stages[i].Dispose();
 		}
 	}
 }
