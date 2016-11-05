@@ -1,3 +1,4 @@
+using KickOff;
 using ServiceContainer;
 using StructureMap;
 using StructureMap.Graph;

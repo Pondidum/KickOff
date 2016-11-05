@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ServiceContainer
+namespace KickOff
 {
 	public class Pipeline : IDisposable
 	{
