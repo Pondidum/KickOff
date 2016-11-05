@@ -48,20 +48,34 @@ namespace KickOff.Tests
 			);
 		}
 
+		[Fact]
+		public void A_replacement_of_the_container_gets_propegated()
+		{
+			Func<Type, object> container = x => new object();
+
+			var replacer = new TestStage(onExecute: r => r.InstanceFactory = container);
+			var next = new TestStage();
+
+			var pipeline = new Pipeline();
+			pipeline.Execute(new[] { replacer, next });
+
+			next.InstanceFactory.ShouldBe(container);
+		}
+
 		private class TestStage : Stage
 		{
 			private readonly Action<Stage> _onExecute;
 			private readonly Action<Stage> _onDispose;
 
-			public TestStage(Action<Stage> onExecute, Action<Stage> onDispose)
+			public TestStage(Action<Stage> onExecute = null, Action<Stage> onDispose = null)
 			{
 				_onExecute = onExecute;
 				_onDispose = onDispose;
 			}
 
-			public override void Execute() => _onExecute(this);
+			public override void Execute() => _onExecute?.Invoke(this);
 
-			public override void Dispose() => _onDispose(this);
+			public override void Dispose() => _onDispose?.Invoke(this);
 		}
 
 	}
