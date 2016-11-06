@@ -1,4 +1,4 @@
-﻿namespace ServiceContainer
+﻿namespace KickOff
 {
 	public interface IStartup
 	{

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
 using KickOff;
-using ServiceContainer.Stages;
+using KickOff.Stages;
 
 namespace ServiceContainer
 {

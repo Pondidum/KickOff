@@ -1,9 +1,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using KickOff;
 
-namespace ServiceContainer.Stages
+namespace KickOff.Stages
 {
 	public class RunnerStage : Stage
 	{

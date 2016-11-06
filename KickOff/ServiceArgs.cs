@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ServiceContainer
+namespace KickOff
 {
 	public class ServiceArgs
 	{
