@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ServiceProcess;
-using KickOff;
 
-namespace ServiceContainer
+namespace KickOff
 {
 	public static class ServiceHost
 	{

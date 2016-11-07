@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceProcess;
-using KickOff;
 using KickOff.Stages;
 
-namespace ServiceContainer
+namespace KickOff
 {
 	internal class ServiceWrapper : ServiceBase
 	{

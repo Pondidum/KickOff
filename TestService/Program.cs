@@ -2,7 +2,6 @@
 using System.Threading;
 using Consul;
 using KickOff;
-using ServiceContainer;
 using TestService.Stages;
 
 namespace TestService

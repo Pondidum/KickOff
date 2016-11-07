@@ -1,6 +1,5 @@
 using Consul;
 using KickOff;
-using ServiceContainer;
 
 namespace TestService.Stages
 {

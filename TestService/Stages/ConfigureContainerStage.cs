@@ -1,5 +1,4 @@
 using KickOff;
-using ServiceContainer;
 using StructureMap;
 using StructureMap.Graph;
 using StructureMap.Graph.Scanning;

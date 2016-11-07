@@ -3,7 +3,6 @@ using System.IO;
 using KickOff;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
-using ServiceContainer;
 
 namespace TestService.Stages
 {
