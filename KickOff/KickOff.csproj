@@ -51,6 +51,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="IStage.cs" />
+    <Compile Include="StageArgs.cs" />
     <Compile Include="Stages\RunnerStage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
