@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceContainer", "ServiceContainer\ServiceContainer.csproj", "{AF7CDC92-91B3-4CE5-BEB8-4AA7C193285D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestService", "TestService\TestService.csproj", "{ABF1714B-B340-402E-9DED-F6BE9F666C47}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KickOff", "KickOff\KickOff.csproj", "{F6785918-8851-4437-BEE1-A88521EB630B}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AF7CDC92-91B3-4CE5-BEB8-4AA7C193285D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF7CDC92-91B3-4CE5-BEB8-4AA7C193285D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF7CDC92-91B3-4CE5-BEB8-4AA7C193285D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF7CDC92-91B3-4CE5-BEB8-4AA7C193285D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ABF1714B-B340-402E-9DED-F6BE9F666C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ABF1714B-B340-402E-9DED-F6BE9F666C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABF1714B-B340-402E-9DED-F6BE9F666C47}.Release|Any CPU.ActiveCfg = Release|Any CPU

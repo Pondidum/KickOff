@@ -87,10 +87,6 @@
       <Project>{f6785918-8851-4437-bee1-a88521eb630b}</Project>
       <Name>KickOff</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceContainer\ServiceContainer.csproj">
-      <Project>{AF7CDC92-91B3-4CE5-BEB8-4AA7C193285D}</Project>
-      <Name>ServiceContainer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
