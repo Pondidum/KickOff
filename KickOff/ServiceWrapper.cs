@@ -5,7 +5,7 @@ using KickOff.Stages;
 
 namespace KickOff
 {
-	internal class ServiceWrapper : ServiceBase
+	public class ServiceWrapper : ServiceBase
 	{
 		private readonly Pipeline _pipeline;
 		private readonly IEnumerable<Stage> _stages;
