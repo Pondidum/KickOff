@@ -31,11 +31,11 @@ namespace KickOff.Stages
 
 		public override void Execute(StageArgs args)
 		{
-			_startup = TryGetInstance<IStartup>();
+			_startup = args.TryGetInstance<IStartup>();
 			_runner.Start();
 		}
 
-		public override void Dispose()
+		public override void Dispose(StageArgs args)
 		{
 			try
 			{

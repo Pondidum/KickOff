@@ -28,7 +28,7 @@ namespace TestService.Stages
 				.WriteTo.ColoredConsole()
 				.WriteTo.RollingFile(logs);
 
-			var config = TryGetInstance<ILogConfig>();
+			var config = args.TryGetInstance<ILogConfig>();
 			if (config != null && config.EnableKibana)
 				logConfig.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(config.LoggingEndpoint) { AutoRegisterTemplate = true });
 
@@ -47,7 +47,7 @@ namespace TestService.Stages
 			Log.ForContext<LoggingStage>().Error(ex, ex.Message);
 		}
 
-		public override void Dispose()
+		public override void Dispose(StageArgs args)
 		{
 			AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;
 		}

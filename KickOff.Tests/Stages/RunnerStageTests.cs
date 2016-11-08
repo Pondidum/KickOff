@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using KickOff.Stages;
 using NSubstitute;
@@ -21,8 +20,10 @@ namespace KickOff.Tests.Stages
 		{
 			var startup = Substitute.For<IStartup>();
 
-			_runner.InstanceFactory = type => startup;
-			_runner.Execute(new StageArgs(new string[0]));
+			_runner.Execute(new StageArgs(new string[0])
+			{
+				InstanceFactory = type => startup
+			});
 
 			Thread.Sleep(50);
 

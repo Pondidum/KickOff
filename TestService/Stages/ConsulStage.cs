@@ -7,7 +7,7 @@ namespace TestService.Stages
 	{
 		public override void Execute(StageArgs args)
 		{
-			var registration = TryGetInstance<IConsulRegistration>();
+			var registration = args.TryGetInstance<IConsulRegistration>();
 
 			if (registration != null)
 			{
@@ -16,9 +16,9 @@ namespace TestService.Stages
 			}
 		}
 
-		public override void Dispose()
+		public override void Dispose(StageArgs args)
 		{
-			var registration = TryGetInstance<IConsulRegistration>();
+			var registration = args.TryGetInstance<IConsulRegistration>();
 
 			if (registration != null)
 			{

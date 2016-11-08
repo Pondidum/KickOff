@@ -23,10 +23,10 @@ namespace TestService.Stages
 				});
 			});
 
-			InstanceFactory = _container.TryGetInstance;
+			args.InstanceFactory = _container.TryGetInstance;
 		}
 
-		public override void Dispose()
+		public override void Dispose(StageArgs args)
 		{
 			_container?.Dispose();
 		}

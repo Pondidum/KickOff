@@ -52,14 +52,15 @@ namespace KickOff.Tests
 		public void A_replacement_of_the_container_gets_propegated()
 		{
 			Func<Type, object> container = x => new object();
+			Func<Type, object> instanceFactorySeen = null;
 
-			var replacer = new TestStage(onExecute: r => r.InstanceFactory = container);
-			var next = new TestStage();
+			var replacer = new TestStage(onExecute: (ts, a) => a.InstanceFactory = container);
+			var next = new TestStage(onExecute: (ts, a) => instanceFactorySeen = a.InstanceFactory);
 
 			var pipeline = new Pipeline();
 			pipeline.Execute(new[] { replacer, next }, new string[0]);
 
-			next.InstanceFactory.ShouldBe(container);
+			instanceFactorySeen.ShouldBe(container);
 		}
 	}
 }

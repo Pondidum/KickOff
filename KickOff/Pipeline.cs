@@ -6,6 +6,7 @@ namespace KickOff
 	public class Pipeline : IDisposable
 	{
 		private readonly List<Stage> _stages;
+		private StageArgs _stageArgs;
 
 		public Pipeline()
 		{
@@ -14,16 +15,15 @@ namespace KickOff
 
 		public void Execute(IEnumerable<Stage> stages, string[] startArgs)
 		{
-			Func<Type, object> factory = type => type.GetConstructor(Type.EmptyTypes)?.Invoke(null);
-
-			var args = new StageArgs(startArgs);
+			_stageArgs = new StageArgs(startArgs)
+			{
+				InstanceFactory = type => type.GetConstructor(Type.EmptyTypes)?.Invoke(null)
+		};
 
 			foreach (var stage in stages)
 			{
-				stage.InstanceFactory = factory;
-				stage.Execute(args);
+				stage.Execute(_stageArgs);
 
-				factory = stage.InstanceFactory;
 				_stages.Add(stage);
 			}
 		}
@@ -31,7 +31,7 @@ namespace KickOff
 		public void Dispose()
 		{
 			for (var i = _stages.Count - 1; i >= 0; i--)
-				_stages[i].Dispose();
+				_stages[i].Dispose(_stageArgs);
 		}
 	}
 }
