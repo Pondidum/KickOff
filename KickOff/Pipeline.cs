@@ -22,7 +22,7 @@ namespace KickOff
 
 			foreach (var stage in stages)
 			{
-				stage.Execute(_stageArgs);
+				stage.OnStart(_stageArgs);
 
 				_stages.Add(stage);
 			}

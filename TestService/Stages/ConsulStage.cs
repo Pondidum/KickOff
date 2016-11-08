@@ -5,7 +5,7 @@ namespace TestService.Stages
 {
 	public class ConsulStage : Stage
 	{
-		public override void Execute(StageArgs args)
+		public override void OnStart(StageArgs args)
 		{
 			var registration = args.TryGetInstance<IConsulRegistration>();
 

@@ -23,7 +23,7 @@ namespace KickOff.Tests
 			_onDispose = (me, args) => onDispose?.Invoke(me);
 		}
 
-		public override void Execute(StageArgs args) => _onExecute?.Invoke(this, args);
+		public override void OnStart(StageArgs args) => _onExecute?.Invoke(this, args);
 
 		public override void Dispose(StageArgs args) => _onDispose?.Invoke(this, args);
 	}

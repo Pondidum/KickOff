@@ -4,7 +4,7 @@ namespace KickOff
 {
 	public abstract class Stage
 	{
-		public abstract void Execute(StageArgs args);
+		public abstract void OnStart(StageArgs args);
 		public abstract void Dispose(StageArgs args);
 	}
 

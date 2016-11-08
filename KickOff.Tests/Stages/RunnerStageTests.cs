@@ -20,7 +20,7 @@ namespace KickOff.Tests.Stages
 		{
 			var startup = Substitute.For<IStartup>();
 
-			_runner.Execute(new StageArgs(new string[0])
+			_runner.OnStart(new StageArgs(new string[0])
 			{
 				InstanceFactory = type => startup
 			});
