@@ -29,7 +29,7 @@ namespace KickOff.Stages
 			}, _source.Token);
 		}
 
-		public override void Execute()
+		public override void Execute(StageArgs args)
 		{
 			_startup = TryGetInstance<IStartup>();
 			_runner.Start();

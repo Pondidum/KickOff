@@ -22,7 +22,7 @@ namespace KickOff.Tests.Stages
 			var startup = Substitute.For<IStartup>();
 
 			_runner.InstanceFactory = type => startup;
-			_runner.Execute();
+			_runner.Execute(new StageArgs(new string[0]));
 
 			Thread.Sleep(50);
 

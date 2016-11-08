@@ -15,7 +15,7 @@ namespace TestService.Stages
 			_serviceName = serviceName;
 		}
 
-		public override void Execute()
+		public override void Execute(StageArgs args)
 		{
 			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 			var logs = Path.Combine(baseDirectory, "logs");

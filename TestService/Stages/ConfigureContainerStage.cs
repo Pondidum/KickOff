@@ -9,7 +9,7 @@ namespace TestService.Stages
 	{
 		private Container _container;
 
-		public override void Execute()
+		public override void Execute(StageArgs args)
 		{
 			_container = new Container(c =>
 			{

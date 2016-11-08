@@ -12,14 +12,16 @@ namespace KickOff
 			_stages = new List<Stage>();
 		}
 
-		public void Execute(IEnumerable<Stage> stages)
+		public void Execute(IEnumerable<Stage> stages, string[] startArgs)
 		{
 			Func<Type, object> factory = type => type.GetConstructor(Type.EmptyTypes).Invoke(null);
+
+			var args = new StageArgs(startArgs);
 
 			foreach (var stage in stages)
 			{
 				stage.InstanceFactory = factory;
-				stage.Execute();
+				stage.Execute(args);
 
 				factory = stage.InstanceFactory;
 				_stages.Add(stage);

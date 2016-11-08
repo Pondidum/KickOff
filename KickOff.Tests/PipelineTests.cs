@@ -19,7 +19,7 @@ namespace KickOff.Tests
 			var stages = new[] { first, second };
 
 			var pipeline = new Pipeline();
-			pipeline.Execute(stages);
+			pipeline.Execute(stages, new string[0]);
 
 			pipeline.ShouldSatisfyAllConditions(
 				() => executionOrder.ShouldBe(stages),
@@ -39,7 +39,7 @@ namespace KickOff.Tests
 			var stages = new[] { first, second };
 
 			var pipeline = new Pipeline();
-			pipeline.Execute(stages);
+			pipeline.Execute(stages, new string[0]);
 			pipeline.Dispose();
 
 			pipeline.ShouldSatisfyAllConditions(
@@ -57,7 +57,7 @@ namespace KickOff.Tests
 			var next = new TestStage();
 
 			var pipeline = new Pipeline();
-			pipeline.Execute(new[] { replacer, next });
+			pipeline.Execute(new[] { replacer, next }, new string[0]);
 
 			next.InstanceFactory.ShouldBe(container);
 		}
