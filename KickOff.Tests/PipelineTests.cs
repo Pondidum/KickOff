@@ -62,5 +62,20 @@ namespace KickOff.Tests
 
 			instanceFactorySeen.ShouldBe(container);
 		}
+
+		[Fact]
+		public void The_args_used_in_stop_are_same_as_start()
+		{
+			StageArgs startArgs = null;
+			StageArgs stopArgs = null;
+
+			var stage = new TestStage((ts, a) => startArgs = a, (ts, a) => stopArgs = a);
+
+			var pipeline = new Pipeline();
+			pipeline.Execute(new[] { stage }, new string[0]);
+			pipeline.Dispose();
+
+			stopArgs.ShouldBe(startArgs);
+		}
 	}
 }
