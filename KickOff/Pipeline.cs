@@ -14,7 +14,7 @@ namespace KickOff
 
 		public void Execute(IEnumerable<Stage> stages, string[] startArgs)
 		{
-			Func<Type, object> factory = type => type.GetConstructor(Type.EmptyTypes).Invoke(null);
+			Func<Type, object> factory = type => type.GetConstructor(Type.EmptyTypes)?.Invoke(null);
 
 			var args = new StageArgs(startArgs);
 

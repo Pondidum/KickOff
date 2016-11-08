@@ -11,8 +11,8 @@ namespace KickOff.Tests
 		{
 			var receivedArgs = new List<string[]>();
 
-			var first = new TestStage(onExecute: (s) => { });
-			var second = new TestStage(onExecute: (s) => { });
+			var first = new TestStage(onExecute: (s, args) => receivedArgs.Add(args.StartArgs));
+			var second = new TestStage(onExecute: (s, args) => receivedArgs.Add(args.StartArgs));
 
 			var wrapper = new ServiceWrapper("Test", new[] { first, second });
 			var startArgs = new []{ "a", "b", "c" };
