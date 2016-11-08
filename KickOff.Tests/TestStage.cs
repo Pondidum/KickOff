@@ -25,6 +25,6 @@ namespace KickOff.Tests
 
 		public override void OnStart(StageArgs args) => _onExecute?.Invoke(this, args);
 
-		public override void Dispose(StageArgs args) => _onDispose?.Invoke(this, args);
+		public override void OnStop(StageArgs args) => _onDispose?.Invoke(this, args);
 	}
 }

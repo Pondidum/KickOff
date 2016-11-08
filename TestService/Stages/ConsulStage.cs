@@ -16,7 +16,7 @@ namespace TestService.Stages
 			}
 		}
 
-		public override void Dispose(StageArgs args)
+		public override void OnStop(StageArgs args)
 		{
 			var registration = args.TryGetInstance<IConsulRegistration>();
 

@@ -47,7 +47,7 @@ namespace TestService.Stages
 			Log.ForContext<LoggingStage>().Error(ex, ex.Message);
 		}
 
-		public override void Dispose(StageArgs args)
+		public override void OnStop(StageArgs args)
 		{
 			AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;
 		}

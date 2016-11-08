@@ -31,7 +31,7 @@ namespace KickOff
 		public void Dispose()
 		{
 			for (var i = _stages.Count - 1; i >= 0; i--)
-				_stages[i].Dispose(_stageArgs);
+				_stages[i].OnStop(_stageArgs);
 		}
 	}
 }

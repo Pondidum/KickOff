@@ -26,7 +26,7 @@ namespace TestService.Stages
 			args.InstanceFactory = _container.TryGetInstance;
 		}
 
-		public override void Dispose(StageArgs args)
+		public override void OnStop(StageArgs args)
 		{
 			_container?.Dispose();
 		}

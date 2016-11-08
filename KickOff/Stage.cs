@@ -5,7 +5,7 @@ namespace KickOff
 	public abstract class Stage
 	{
 		public abstract void OnStart(StageArgs args);
-		public abstract void Dispose(StageArgs args);
+		public abstract void OnStop(StageArgs args);
 	}
 
 	public class StageArgs

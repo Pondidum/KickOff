@@ -35,7 +35,7 @@ namespace KickOff.Stages
 			_runner.Start();
 		}
 
-		public override void Dispose(StageArgs args)
+		public override void OnStop(StageArgs args)
 		{
 			try
 			{
