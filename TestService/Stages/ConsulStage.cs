@@ -3,9 +3,9 @@ using KickOff;
 
 namespace TestService.Stages
 {
-	public class ConsulStage : Stage
+	public class ConsulStage : IStage
 	{
-		public override void OnStart(StageArgs args)
+		public virtual void OnStart(StageArgs args)
 		{
 			var registration = args.TryGetInstance<IConsulRegistration>();
 
@@ -16,7 +16,7 @@ namespace TestService.Stages
 			}
 		}
 
-		public override void OnStop(StageArgs args)
+		public virtual void OnStop(StageArgs args)
 		{
 			var registration = args.TryGetInstance<IConsulRegistration>();
 

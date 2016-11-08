@@ -50,7 +50,7 @@
     <Compile Include="ServiceWrapper.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Stage.cs" />
+    <Compile Include="IStage.cs" />
     <Compile Include="Stages\RunnerStage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,9 +8,9 @@ namespace KickOff
 	public class ServiceWrapper : ServiceBase
 	{
 		private readonly Pipeline _pipeline;
-		private readonly IEnumerable<Stage> _stages;
+		private readonly IEnumerable<IStage> _stages;
 
-		public ServiceWrapper(string name, IEnumerable<Stage> stages)
+		public ServiceWrapper(string name, IEnumerable<IStage> stages)
 		{
 			ServiceName = name;
 

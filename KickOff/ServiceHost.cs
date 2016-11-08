@@ -6,7 +6,7 @@ namespace KickOff
 {
 	public static class ServiceHost
 	{
-		public static void Run(string name, IEnumerable<Stage> stages)
+		public static void Run(string name, IEnumerable<IStage> stages)
 		{
 			var service = new ServiceWrapper(name, stages);
 

@@ -11,7 +11,7 @@ namespace TestService
 		static void Main(string[] args)
 		{
 
-			ServiceHost.Run("TestService", new Stage[]
+			ServiceHost.Run("TestService", new IStage[]
 			{
 				new ConfigureContainerStage(),
 				new LoggingStage("TestService"),

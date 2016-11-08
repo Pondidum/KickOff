@@ -6,7 +6,7 @@ using Serilog.Sinks.Elasticsearch;
 
 namespace TestService.Stages
 {
-	public class LoggingStage : Stage
+	public class LoggingStage : IStage
 	{
 		private readonly string _serviceName;
 
@@ -15,7 +15,7 @@ namespace TestService.Stages
 			_serviceName = serviceName;
 		}
 
-		public override void OnStart(StageArgs args)
+		public virtual void OnStart(StageArgs args)
 		{
 			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 			var logs = Path.Combine(baseDirectory, "logs");
@@ -47,7 +47,7 @@ namespace TestService.Stages
 			Log.ForContext<LoggingStage>().Error(ex, ex.Message);
 		}
 
-		public override void OnStop(StageArgs args)
+		public virtual void OnStop(StageArgs args)
 		{
 			AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;
 		}

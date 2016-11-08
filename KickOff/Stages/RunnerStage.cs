@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace KickOff.Stages
 {
-	public class RunnerStage : Stage
+	public class RunnerStage : IStage
 	{
 		private readonly CancellationTokenSource _source;
 		private readonly ServiceArgs _serviceArgs;
@@ -29,13 +29,13 @@ namespace KickOff.Stages
 			}, _source.Token);
 		}
 
-		public override void OnStart(StageArgs args)
+		public virtual void OnStart(StageArgs args)
 		{
 			_startup = args.TryGetInstance<IStartup>();
 			_runner.Start();
 		}
 
-		public override void OnStop(StageArgs args)
+		public virtual void OnStop(StageArgs args)
 		{
 			try
 			{

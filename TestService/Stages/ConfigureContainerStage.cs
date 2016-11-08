@@ -5,11 +5,11 @@ using StructureMap.Graph.Scanning;
 
 namespace TestService.Stages
 {
-	public class ConfigureContainerStage : Stage
+	public class ConfigureContainerStage : IStage
 	{
 		private Container _container;
 
-		public override void OnStart(StageArgs args)
+		public virtual void OnStart(StageArgs args)
 		{
 			_container = new Container(c =>
 			{
@@ -26,7 +26,7 @@ namespace TestService.Stages
 			args.InstanceFactory = _container.TryGetInstance;
 		}
 
-		public override void OnStop(StageArgs args)
+		public virtual void OnStop(StageArgs args)
 		{
 			_container?.Dispose();
 		}

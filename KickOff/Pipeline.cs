@@ -5,15 +5,15 @@ namespace KickOff
 {
 	public class Pipeline : IDisposable
 	{
-		private readonly List<Stage> _stages;
+		private readonly List<IStage> _stages;
 		private StageArgs _stageArgs;
 
 		public Pipeline()
 		{
-			_stages = new List<Stage>();
+			_stages = new List<IStage>();
 		}
 
-		public void Execute(IEnumerable<Stage> stages, string[] startArgs)
+		public void Execute(IEnumerable<IStage> stages, string[] startArgs)
 		{
 			_stageArgs = new StageArgs(startArgs)
 			{

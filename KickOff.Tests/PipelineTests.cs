@@ -10,8 +10,8 @@ namespace KickOff.Tests
 		[Fact]
 		public void When_a_pipeline_is_run()
 		{
-			var executionOrder = new List<Stage>();
-			var disposalOrder = new List<Stage>();
+			var executionOrder = new List<IStage>();
+			var disposalOrder = new List<IStage>();
 
 			var first = new TestStage(executionOrder.Add, disposalOrder.Add);
 			var second = new TestStage(executionOrder.Add, disposalOrder.Add);
@@ -30,8 +30,8 @@ namespace KickOff.Tests
 		[Fact]
 		public void When_a_pipeline_is_disposed()
 		{
-			var executionOrder = new List<Stage>();
-			var disposalOrder = new List<Stage>();
+			var executionOrder = new List<IStage>();
+			var disposalOrder = new List<IStage>();
 
 			var first = new TestStage(executionOrder.Add, disposalOrder.Add);
 			var second = new TestStage(executionOrder.Add, disposalOrder.Add);

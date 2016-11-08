@@ -2,10 +2,10 @@ using System;
 
 namespace KickOff
 {
-	public abstract class Stage
+	public interface IStage
 	{
-		public abstract void OnStart(StageArgs args);
-		public abstract void OnStop(StageArgs args);
+		void OnStart(StageArgs args);
+		void OnStop(StageArgs args);
 	}
 
 	public class StageArgs
