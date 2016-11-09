@@ -6,16 +6,15 @@ namespace KickOff.Stages
 {
 	public class RunnerStage : IStage
 	{
-		private readonly CancellationTokenSource _source;
-		private readonly ServiceArgs _serviceArgs;
-		private readonly Task _runner;
+		private ServiceArgs _serviceArgs;
 		private IStartup _startup;
 
-		public RunnerStage(string[] startArgs)
+		private readonly CancellationTokenSource _source;
+		private readonly Task _runner;
+
+		public RunnerStage()
 		{
 			_source = new CancellationTokenSource();
-
-			_serviceArgs = new ServiceArgs(startArgs, () => _source.IsCancellationRequested);
 
 			_runner = new Task(() =>
 			{
@@ -32,6 +31,8 @@ namespace KickOff.Stages
 		public virtual void OnStart(StageArgs args)
 		{
 			_startup = args.TryGetInstance<IStartup>();
+			_serviceArgs = new ServiceArgs(args.StartArgs, () => _source.IsCancellationRequested);
+
 			_runner.Start();
 		}
 

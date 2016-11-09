@@ -2,6 +2,7 @@
 using System.Threading;
 using Consul;
 using KickOff;
+using KickOff.Stages;
 using TestService.Stages;
 
 namespace TestService
@@ -15,7 +16,8 @@ namespace TestService
 			{
 				new ConfigureContainerStage(),
 				new LoggingStage("TestService"),
-				new ConsulStage(),  
+				new ConsulStage(),
+				new RunnerStage()
 			});
 		}
 	}

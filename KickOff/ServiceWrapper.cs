@@ -25,10 +25,7 @@ namespace KickOff
 
 		protected override void OnStart(string[] args)
 		{
-			_pipeline.Execute(
-				_stages.Concat(new[] { new RunnerStage(args) }),
-				args
-			);
+			_pipeline.Execute(_stages, args);
 		}
 
 		protected override void OnStop()
