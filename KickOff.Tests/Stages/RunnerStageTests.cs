@@ -12,7 +12,7 @@ namespace KickOff.Tests.Stages
 
 		public RunnerStageTests()
 		{
-			_runner = new RunnerStage(Enumerable.Empty<string>().ToArray());
+			_runner = new RunnerStage();
 		}
 
 		[Fact]
