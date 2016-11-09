@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KickOff", "KickOff\KickOff.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KickOff.Tests", "KickOff.Tests\KickOff.Tests.csproj", "{3135D41E-F778-4104-88F8-86427F1FFFFE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{D9D77E0B-B78F-47FB-96DE-0EFD82E1390A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceWithTopShelf", "Examples\ServiceWithTopShelf\ServiceWithTopShelf.csproj", "{A1C51218-591A-409E-BEEA-59B8A283DCB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +31,15 @@ Global
 		{3135D41E-F778-4104-88F8-86427F1FFFFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3135D41E-F778-4104-88F8-86427F1FFFFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3135D41E-F778-4104-88F8-86427F1FFFFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C51218-591A-409E-BEEA-59B8A283DCB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C51218-591A-409E-BEEA-59B8A283DCB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C51218-591A-409E-BEEA-59B8A283DCB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C51218-591A-409E-BEEA-59B8A283DCB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A1C51218-591A-409E-BEEA-59B8A283DCB8} = {D9D77E0B-B78F-47FB-96DE-0EFD82E1390A}
 	EndGlobalSection
 EndGlobal
