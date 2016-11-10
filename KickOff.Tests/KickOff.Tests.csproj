@@ -70,7 +70,8 @@
     <Compile Include="Scratchpad.cs" />
     <Compile Include="ServiceWrapperTests.cs" />
     <Compile Include="Stages\RunnerStageTests.cs" />
-    <Compile Include="TestStage.cs" />
+    <Compile Include="TestInfrastructure\TestApp.cs" />
+    <Compile Include="TestInfrastructure\TestStage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

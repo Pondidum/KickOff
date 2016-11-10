@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KickOff.Tests
+namespace KickOff.Tests.TestInfrastructure
 {
 	public class TestStage : IStage
 	{
