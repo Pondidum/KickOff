@@ -31,6 +31,10 @@ namespace KickOff.Stages
 		public virtual void OnStart(StageArgs args)
 		{
 			_startup = args.TryGetInstance<IStartup>();
+
+			if (_startup == null)
+				throw new StartupNotFoundException();
+
 			_serviceArgs = new ServiceArgs(args.StartArgs, () => _source.IsCancellationRequested);
 
 			_runner.Start();

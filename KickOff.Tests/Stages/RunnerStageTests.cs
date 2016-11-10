@@ -2,6 +2,7 @@
 using System.Threading;
 using KickOff.Stages;
 using NSubstitute;
+using Shouldly;
 using Xunit;
 
 namespace KickOff.Tests.Stages
@@ -28,6 +29,17 @@ namespace KickOff.Tests.Stages
 			Thread.Sleep(50);
 
 			startup.Received().Execute(Arg.Any<ServiceArgs>());
+		}
+
+		[Fact]
+		public void When_an_IStartup_implementation_cannot_be_found()
+		{
+			var args = new StageArgs(new string[0])
+			{
+				InstanceFactory = type => null
+			};
+
+			Should.Throw<StartupNotFoundException>(() => _runner.OnStart(args));
 		}
 	}
 }
