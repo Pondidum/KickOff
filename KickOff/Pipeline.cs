@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace KickOff
 {
-	public class Pipeline : IDisposable
+	public class Pipeline
 	{
 		private readonly IStage[] _stages;
 		private StageArgs _stageArgs;
@@ -14,7 +14,7 @@ namespace KickOff
 			_stages = stages.ToArray();
 		}
 
-		public void Execute(string[] startArgs)
+		public void OnStart(string[] startArgs)
 		{
 			_stageArgs = new StageArgs(startArgs)
 			{
@@ -27,7 +27,7 @@ namespace KickOff
 			}
 		}
 
-		public void Dispose()
+		public void OnStop()
 		{
 			for (var i = _stages.Length - 1; i >= 0; i--)
 				_stages[i].OnStop(_stageArgs);

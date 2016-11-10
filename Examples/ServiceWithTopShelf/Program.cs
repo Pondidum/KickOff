@@ -21,8 +21,8 @@ namespace ServiceWithTopShelf
 						// ...
 						new RunnerStage(),
 					}));
-					s.WhenStarted(pipeline => pipeline.Execute(args));
-					s.WhenStopped(pipeline => pipeline.Dispose());
+					s.WhenStarted(pipeline => pipeline.OnStart(args));
+					s.WhenStopped(pipeline => pipeline.OnStop());
 				});
 			});
 		}

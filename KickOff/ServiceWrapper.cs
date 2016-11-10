@@ -21,12 +21,12 @@ namespace KickOff
 
 		protected override void OnStart(string[] args)
 		{
-			_pipeline.Execute(args);
+			_pipeline.OnStart(args);
 		}
 
 		protected override void OnStop()
 		{
-			_pipeline.Dispose();
+			_pipeline.OnStop();
 		}
 	}
 }
