@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace KickOff
 {
@@ -10,7 +11,29 @@ namespace KickOff
 		public StageArgs(string[] startArgs)
 		{
 			StartArgs = startArgs;
-			InstanceFactory = type => type.GetConstructor(Type.EmptyTypes)?.Invoke(null);
+			InstanceFactory = type =>
+			{
+				if (type != typeof(IStartup))
+					return type.GetConstructor(Type.EmptyTypes)?.Invoke(null);
+
+				var assemblies = AppDomain
+					.CurrentDomain
+					.GetAssemblies();
+
+				var types = assemblies
+					.Where(a => a.IsDynamic == false)
+					.SelectMany(a => a.GetExportedTypes());
+
+				var implementers = types
+					.Where(t => t.IsClass && t.IsAbstract == false && type.IsAssignableFrom(t));
+
+				var withCtor = implementers
+					.SingleOrDefault(t => t.GetConstructor(Type.EmptyTypes) != null);
+
+				return withCtor
+					.GetConstructor(Type.EmptyTypes)
+					?.Invoke(null);
+			};
 		}
 
 		public T TryGetInstance<T>()
