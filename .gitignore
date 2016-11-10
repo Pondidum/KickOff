@@ -12,6 +12,6 @@ _ReSharper.*
 
 AssemblyVersion.cs
 
-/packages
+/src/packages
 /node_modules
 log.txt

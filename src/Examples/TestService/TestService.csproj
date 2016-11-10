@@ -83,7 +83,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KickOff\KickOff.csproj">
+    <ProjectReference Include="..\..\KickOff\KickOff.csproj">
       <Project>{f6785918-8851-4437-bee1-a88521eb630b}</Project>
       <Name>KickOff</Name>
     </ProjectReference>
