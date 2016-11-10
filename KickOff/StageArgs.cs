@@ -10,6 +10,7 @@ namespace KickOff
 		public StageArgs(string[] startArgs)
 		{
 			StartArgs = startArgs;
+			InstanceFactory = type => type.GetConstructor(Type.EmptyTypes)?.Invoke(null);
 		}
 
 		public T TryGetInstance<T>()

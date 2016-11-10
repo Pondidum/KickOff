@@ -16,10 +16,7 @@ namespace KickOff
 
 		public void OnStart(string[] startArgs)
 		{
-			_stageArgs = new StageArgs(startArgs)
-			{
-				InstanceFactory = type => type.GetConstructor(Type.EmptyTypes)?.Invoke(null)
-			};
+			_stageArgs = new StageArgs(startArgs);
 
 			foreach (var stage in _stages)
 			{
