@@ -36,8 +36,11 @@ namespace ServiceWithTopShelf
 
 			while (service.CancelRequested == false)
 			{
-				Thread.Sleep(100);
+				Thread.Sleep(400);
+				Console.Write(".");
 			}
+
+			Console.WriteLine();
 		}
 	}
 }
