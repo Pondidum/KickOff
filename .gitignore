@@ -10,6 +10,7 @@ _ReSharper.*
 *.cache
 *.DotSettings
 *.DotSettings.user
+.vs/
 
 AssemblyVersion.cs
 
