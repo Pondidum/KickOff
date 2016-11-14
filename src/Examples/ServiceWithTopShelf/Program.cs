@@ -19,7 +19,7 @@ namespace ServiceWithTopShelf
 						// new StructureMapStage(),
 						// ...
 						// ...
-						new RunnerStage(),
+						new AsyncRunnerStage(),
 					}));
 					s.WhenStarted(pipeline => pipeline.OnStart(args));
 					s.WhenStopped(pipeline => pipeline.OnStop());

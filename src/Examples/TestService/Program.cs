@@ -17,7 +17,7 @@ namespace TestService
 				new ConfigureContainerStage(),
 				new LoggingStage("TestService"),
 				new ConsulStage(),
-				new RunnerStage()
+				new AsyncRunnerStage()
 			});
 		}
 	}

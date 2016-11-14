@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using KickOff.Stages;
 using NSubstitute;
 using Shouldly;
@@ -7,13 +6,13 @@ using Xunit;
 
 namespace KickOff.Tests.Stages
 {
-	public class RunnerStageTests
+	public class AsyncRunnerStageTests
 	{
-		private readonly RunnerStage _runner;
+		private readonly AsyncRunnerStage _asyncRunner;
 
-		public RunnerStageTests()
+		public AsyncRunnerStageTests()
 		{
-			_runner = new RunnerStage();
+			_asyncRunner = new AsyncRunnerStage();
 		}
 
 		[Fact]
@@ -21,7 +20,7 @@ namespace KickOff.Tests.Stages
 		{
 			var startup = Substitute.For<IStartup>();
 
-			_runner.OnStart(new StageArgs(new string[0])
+			_asyncRunner.OnStart(new StageArgs(new string[0])
 			{
 				InstanceFactory = type => startup
 			});
@@ -39,7 +38,7 @@ namespace KickOff.Tests.Stages
 				InstanceFactory = type => null
 			};
 
-			Should.Throw<StartupNotFoundException>(() => _runner.OnStart(args));
+			Should.Throw<StartupNotFoundException>(() => _asyncRunner.OnStart(args));
 		}
 	}
 }

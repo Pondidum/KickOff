@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace KickOff.Stages
 {
-	public class RunnerStage : IStage
+	public class AsyncRunnerStage : IStage
 	{
 		private ServiceArgs _serviceArgs;
 		private IStartup _startup;
@@ -12,7 +12,7 @@ namespace KickOff.Stages
 		private readonly CancellationTokenSource _source;
 		private readonly Task _runner;
 
-		public RunnerStage()
+		public AsyncRunnerStage()
 		{
 			_source = new CancellationTokenSource();
 
