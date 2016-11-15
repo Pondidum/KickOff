@@ -15,7 +15,7 @@ namespace KickOff.Tests
 			var first = new TestStage(onExecute: (s, args) => receivedArgs.Add(args.StartArgs));
 			var second = new TestStage(onExecute: (s, args) => receivedArgs.Add(args.StartArgs));
 
-			var wrapper = new ServiceWrapper("Test", new[] { first, second });
+			var wrapper = new ServiceWrapper("Test", new[] { first, second }, new PipelineCustomisation());
 			var startArgs = new []{ "a", "b", "c" };
 
 			wrapper.Start(startArgs);

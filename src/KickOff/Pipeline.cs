@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,17 +5,20 @@ namespace KickOff
 {
 	public class Pipeline
 	{
-		private readonly IStage[] _stages;
 		private StageArgs _stageArgs;
 
-		public Pipeline(IEnumerable<IStage> stages)
+		private readonly PipelineCustomisation _customiser;
+		private readonly IStage[] _stages;
+
+		public Pipeline(IEnumerable<IStage> stages, PipelineCustomisation customiser = null)
 		{
+			_customiser = customiser ?? new PipelineCustomisation();
 			_stages = stages.ToArray();
 		}
 
 		public void OnStart(string[] startArgs)
 		{
-			_stageArgs = new StageArgs(startArgs);
+			_stageArgs = new StageArgs(_customiser, startArgs);
 
 			foreach (var stage in _stages)
 			{

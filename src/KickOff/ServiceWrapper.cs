@@ -7,11 +7,11 @@ namespace KickOff
 	{
 		private readonly Pipeline _pipeline;
 
-		public ServiceWrapper(string name, IEnumerable<IStage> stages)
+		public ServiceWrapper(string name, IEnumerable<IStage> stages, PipelineCustomisation customiser)
 		{
 			ServiceName = name;
 
-			_pipeline = new Pipeline(stages);
+			_pipeline = new Pipeline(stages, customiser);
 		}
 
 		public void Start(string[] args)

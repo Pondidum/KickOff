@@ -5,11 +5,13 @@ namespace KickOff
 {
 	public class StageArgs
 	{
+		public PipelineCustomisation Customisation { get; }
 		public string[] StartArgs { get; }
 		public Func<Type, object> InstanceFactory { get; set; }
 
-		public StageArgs(string[] startArgs)
+		public StageArgs(PipelineCustomisation customiser, string[] startArgs)
 		{
+			Customisation = customiser;
 			StartArgs = startArgs;
 			InstanceFactory = DefaultInstanceFactory;
 		}

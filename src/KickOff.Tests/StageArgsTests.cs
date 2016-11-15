@@ -10,7 +10,7 @@ namespace KickOff.Tests
 
 		public StageArgsTests()
 		{
-			_args = new StageArgs(new string[0]);
+			_args = new StageArgs(new PipelineCustomisation(), new string[0]);
 		}
 
 		[Fact]
