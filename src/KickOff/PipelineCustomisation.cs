@@ -17,6 +17,22 @@ namespace KickOff
 			_customisations[typeof(T)] = value => customisation((T)value);
 		}
 
+		public void Append<T>(Action<T> customisation)
+		{
+			Action<object> existing;
+
+			_customisations.TryGetValue(typeof(T), out existing);
+
+			if (existing == null)
+				Add(customisation);
+			else
+				Add<T>(value =>
+				{
+					existing(value);
+					customisation(value);
+				});
+		}
+
 		public void Apply<TTarget>(TTarget customisationTarget)
 		{
 			Action<object> apply;
