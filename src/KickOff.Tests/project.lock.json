@@ -402,7 +402,7 @@
           "lib/net45/xunit.runner.utility.desktop.dll": {}
         }
       },
-      "KickOff/0.1.0": {
+      "KickOff/0.1.1": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
         "dependencies": {
@@ -1057,7 +1057,7 @@
         "xunit.runner.utility.nuspec"
       ]
     },
-    "KickOff/0.1.0": {
+    "KickOff/0.1.1": {
       "type": "project",
       "path": "../KickOff/project.json",
       "msbuildProject": "../KickOff/KickOff.xproj"
@@ -1065,7 +1065,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "KickOff >= 0.1.0-*",
+      "KickOff >= 0.*",
       "NSubstitute >= 1.10.0",
       "Shouldly >= 2.8.1",
       "dotnet-test-xunit >= 2.2.0-preview2-build1029",

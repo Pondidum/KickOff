@@ -116,7 +116,7 @@
           "lib/net45/StructureMap.dll": {}
         }
       },
-      "KickOff/0.1.0": {
+      "KickOff/0.1.1": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
         "dependencies": {
@@ -273,7 +273,7 @@
         "structuremap.nuspec"
       ]
     },
-    "KickOff/0.1.0": {
+    "KickOff/0.1.1": {
       "type": "project",
       "path": "../../KickOff/project.json",
       "msbuildProject": "../../KickOff/KickOff.xproj"
@@ -282,7 +282,7 @@
   "projectFileDependencyGroups": {
     "": [
       "Consul >= 0.7.0.3",
-      "KickOff >= 0.1.0",
+      "KickOff >= 0.*",
       "Serilog >= 2.3.0",
       "Serilog.Sinks.ColoredConsole >= 2.0.0",
       "Serilog.Sinks.Elasticsearch >= 4.1.1",
