@@ -62,6 +62,42 @@ namespace KickOff.Tests
 			_target.Value.ShouldBe(138);
 		}
 
+		[Fact]
+		public void When_checking_for_a_non_existant_registration_by_generic()
+		{
+			_pipe
+				.HasCustomisationFor<Dto>()
+				.ShouldBe(false);
+		}
+
+		[Fact]
+		public void When_checking_for_a_non_existant_registration_by_type()
+		{
+			_pipe
+				.HasCustomisationFor(typeof(Dto))
+				.ShouldBe(false);
+		}
+
+		[Fact]
+		public void When_checking_for_an_existing_registration_by_generic()
+		{
+			_pipe.Add<Dto>(dto => dto.Value = 123);
+
+			_pipe
+				.HasCustomisationFor<Dto>()
+				.ShouldBe(true);
+		}
+
+		[Fact]
+		public void When_checking_for_an_existing_registration_by_type()
+		{
+			_pipe.Add<Dto>(dto => dto.Value = 123);
+
+			_pipe
+				.HasCustomisationFor(typeof(Dto))
+				.ShouldBe(true);
+		}
+
 		private class Dto
 		{
 			public int Value { get; set; }

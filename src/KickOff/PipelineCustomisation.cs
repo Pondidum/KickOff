@@ -40,5 +40,15 @@ namespace KickOff
 			if (_customisations.TryGetValue(typeof(TTarget), out apply))
 				apply(customisationTarget);
 		}
+
+		public bool HasCustomisationFor<TTarget>()
+		{
+			return HasCustomisationFor(typeof(TTarget));
+		}
+
+		public bool HasCustomisationFor(Type customisationTarget)
+		{
+			return _customisations.ContainsKey(customisationTarget);
+		}
 	}
 }
