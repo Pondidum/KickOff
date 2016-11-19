@@ -33,7 +33,7 @@ namespace KickOff
 				});
 		}
 
-		public void Apply<TTarget>(TTarget customisationTarget)
+		public virtual void Apply<TTarget>(TTarget customisationTarget)
 		{
 			Action<object> apply;
 
