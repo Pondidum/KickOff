@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using KickOff.Tests.TestInfrastructure;
+using NSubstitute;
 using Shouldly;
 using Xunit;
 
@@ -10,17 +12,23 @@ namespace KickOff.Tests
 		[Fact]
 		public void Start_args_get_passed_to_all_stages()
 		{
-			var receivedArgs = new List<string[]>();
+			var stage = Substitute.For<IStage>();
 
-			var first = new TestStage(onExecute: (s, args) => receivedArgs.Add(args.StartArgs));
-			var second = new TestStage(onExecute: (s, args) => receivedArgs.Add(args.StartArgs));
+			var wrapper = new ServiceWrapper("Test", new[] { stage }, new PipelineCustomisation());
+			wrapper.Start(new string[0]);
 
-			var wrapper = new ServiceWrapper("Test", new[] { first, second }, new PipelineCustomisation());
-			var startArgs = new []{ "a", "b", "c" };
+			stage.Received().OnStart(Arg.Any<StageArgs>());
+		}
 
-			wrapper.Start(startArgs);
+		[Fact]
+		public void When_the_service_is_stopped_so_is_the_pipeline()
+		{
+			var stage = Substitute.For<IStage>();
 
-			receivedArgs.ShouldBe(new[] { startArgs, startArgs });
+			var wrapper = new ServiceWrapper("Test", new[] { stage }, new PipelineCustomisation());
+			wrapper.Stop();
+
+			stage.Received().OnStop(Arg.Any<StageArgs>());
 		}
 	}
 }

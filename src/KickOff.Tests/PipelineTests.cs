@@ -65,6 +65,21 @@ namespace KickOff.Tests
 		}
 
 		[Fact]
+		public void Start_args_are_passed_to_all_stages()
+		{
+			var receivedArgs = new List<string[]>();
+			var startArgs = new[] { "a", "b", "c" };
+
+			var first = new TestStage(onExecute: (s, args) => receivedArgs.Add(args.StartArgs));
+			var second = new TestStage(onExecute: (s, args) => receivedArgs.Add(args.StartArgs));
+
+			var pipeline = new Pipeline(new[] { first, second });
+			pipeline.OnStart(startArgs);
+
+			receivedArgs.ShouldBe(new[] { startArgs, startArgs });
+		}
+
+		[Fact]
 		public void The_args_used_in_stop_are_same_as_start()
 		{
 			StageArgs startArgs = null;
