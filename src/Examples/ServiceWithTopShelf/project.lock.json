@@ -125,7 +125,7 @@
           "lib/net452/Topshelf.dll": {}
         }
       },
-      "KickOff/0.1.1": {
+      "KickOff/0.2.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
         "dependencies": {
@@ -293,7 +293,7 @@
         "lib/net452/Topshelf.dll"
       ]
     },
-    "KickOff/0.1.1": {
+    "KickOff/0.2.0": {
       "type": "project",
       "path": "../../KickOff/project.json",
       "msbuildProject": "../../KickOff/KickOff.xproj"

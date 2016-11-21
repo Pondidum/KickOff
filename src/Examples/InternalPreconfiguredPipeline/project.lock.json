@@ -116,7 +116,7 @@
           "lib/net45/StructureMap.dll": {}
         }
       },
-      "KickOff/0.1.2": {
+      "KickOff/0.2.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
         "dependencies": {
@@ -273,7 +273,7 @@
         "structuremap.nuspec"
       ]
     },
-    "KickOff/0.1.2": {
+    "KickOff/0.2.0": {
       "type": "project",
       "path": "../../KickOff/project.json",
       "msbuildProject": "../../KickOff/KickOff.xproj"
