@@ -6,9 +6,9 @@ namespace KickOff
 {
 	public static class ServiceHost
 	{
-		public static void Run(string name, IEnumerable<IStage> stages, PipelineCustomisation customiser = null)
+		public static void Run(string name, IEnumerable<IStage> stages)
 		{
-			var service = new ServiceWrapper(name, stages, customiser);
+			var service = new ServiceWrapper(name, stages);
 
 			if (Environment.UserInteractive)
 			{

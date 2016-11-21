@@ -5,14 +5,11 @@ namespace KickOff
 {
 	public class StageArgs
 	{
-		private readonly PipelineCustomisation _customiser;
-
 		public string[] StartArgs { get; }
 		public Func<Type, object> InstanceFactory { get; set; }
 
-		public StageArgs(PipelineCustomisation customiser, string[] startArgs)
+		public StageArgs(string[] startArgs)
 		{
-			_customiser = customiser;
 			StartArgs = startArgs;
 			InstanceFactory = DefaultInstanceFactory;
 		}
@@ -20,11 +17,6 @@ namespace KickOff
 		public T TryGetInstance<T>()
 		{
 			return (T)InstanceFactory(typeof(T));
-		}
-
-		public void ApplyCustomisationTo<TTarget>(TTarget customisationTarget)
-		{
-			_customiser.Apply(customisationTarget);
 		}
 
 		private static object DefaultInstanceFactory(Type type)

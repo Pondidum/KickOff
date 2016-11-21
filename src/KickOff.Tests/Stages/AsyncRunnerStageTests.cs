@@ -20,7 +20,7 @@ namespace KickOff.Tests.Stages
 		{
 			var startup = Substitute.For<IStartup>();
 
-			_asyncRunner.OnStart(new StageArgs(new PipelineCustomisation(), new string[0])
+			_asyncRunner.OnStart(new StageArgs(new string[0])
 			{
 				InstanceFactory = type => startup
 			});
@@ -33,7 +33,7 @@ namespace KickOff.Tests.Stages
 		[Fact]
 		public void When_an_IStartup_implementation_cannot_be_found()
 		{
-			var args = new StageArgs(new PipelineCustomisation(), new string[0])
+			var args = new StageArgs(new string[0])
 			{
 				InstanceFactory = type => null
 			};

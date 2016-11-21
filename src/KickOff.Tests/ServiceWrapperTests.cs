@@ -14,7 +14,7 @@ namespace KickOff.Tests
 		{
 			var stage = Substitute.For<IStage>();
 
-			var wrapper = new ServiceWrapper("Test", new[] { stage }, new PipelineCustomisation());
+			var wrapper = new ServiceWrapper("Test", new[] { stage });
 			wrapper.Start(new string[0]);
 
 			stage.Received().OnStart(Arg.Any<StageArgs>());
@@ -25,7 +25,7 @@ namespace KickOff.Tests
 		{
 			var stage = Substitute.For<IStage>();
 
-			var wrapper = new ServiceWrapper("Test", new[] { stage }, new PipelineCustomisation());
+			var wrapper = new ServiceWrapper("Test", new[] { stage });
 			wrapper.Stop();
 
 			stage.Received().OnStop(Arg.Any<StageArgs>());

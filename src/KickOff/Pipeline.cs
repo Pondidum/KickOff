@@ -7,18 +7,16 @@ namespace KickOff
 	{
 		private StageArgs _stageArgs;
 
-		private readonly PipelineCustomisation _customiser;
 		private readonly IStage[] _stages;
 
-		public Pipeline(IEnumerable<IStage> stages, PipelineCustomisation customiser = null)
+		public Pipeline(IEnumerable<IStage> stages)
 		{
-			_customiser = customiser ?? new PipelineCustomisation();
 			_stages = stages.ToArray();
 		}
 
 		public void OnStart(string[] startArgs)
 		{
-			_stageArgs = new StageArgs(_customiser, startArgs);
+			_stageArgs = new StageArgs(startArgs);
 
 			foreach (var stage in _stages)
 			{

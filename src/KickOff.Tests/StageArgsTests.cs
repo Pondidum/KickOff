@@ -8,12 +8,10 @@ namespace KickOff.Tests
 	public class StageArgsTests
 	{
 		private readonly StageArgs _args;
-		private readonly PipelineCustomisation _customisations;
 
 		public StageArgsTests()
 		{
-			_customisations = Substitute.For<PipelineCustomisation>();
-			_args = new StageArgs(_customisations, new string[0]);
+			_args = new StageArgs(new string[0]);
 		}
 
 		[Fact]
@@ -30,16 +28,6 @@ namespace KickOff.Tests
 			_args
 				.TryGetInstance<SomeDto>()
 				.ShouldNotBeNull();
-		}
-
-		[Fact]
-		public void Applying_Customisiations_call_is_passed_through()
-		{
-			var dto = new SomeDto();
-
-			_args.ApplyCustomisationTo(dto);
-
-			_customisations.Received().Apply(dto);
 		}
 
 		private class SomeDto
