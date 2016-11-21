@@ -6,12 +6,14 @@ namespace KickOff
 	public class StageArgs
 	{
 		public string[] StartArgs { get; }
+		public ServiceMetadata Metadata { get; }
 		public Func<Type, object> InstanceFactory { get; set; }
 
 		public StageArgs(string[] startArgs)
 		{
 			StartArgs = startArgs;
 			InstanceFactory = DefaultInstanceFactory;
+			Metadata = new ServiceMetadata();
 		}
 
 		public T TryGetInstance<T>()
