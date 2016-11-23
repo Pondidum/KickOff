@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using KickOff.Tests.TestInfrastructure;
+﻿using KickOff.Host.Windows;
 using NSubstitute;
-using Shouldly;
 using Xunit;
 
 namespace KickOff.Tests

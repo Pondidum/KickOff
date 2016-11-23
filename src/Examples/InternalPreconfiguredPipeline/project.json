@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "frameworks": {
@@ -14,6 +14,7 @@
   "dependencies": {
     "Consul": "0.7.0.3",
     "KickOff": "0.*",
+    "KickOff.Host.Windows": "0.0.1",
     "Serilog": "2.3.0",
     "Serilog.Sinks.ColoredConsole": "2.0.0",
     "Serilog.Sinks.Elasticsearch": "4.1.1",

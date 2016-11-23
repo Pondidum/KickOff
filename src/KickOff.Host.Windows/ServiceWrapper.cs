@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ServiceProcess;
 
-namespace KickOff
+namespace KickOff.Host.Windows
 {
 	public class ServiceWrapper : ServiceBase
 	{

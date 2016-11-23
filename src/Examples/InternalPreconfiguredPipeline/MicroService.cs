@@ -1,5 +1,6 @@
 ﻿using InternalPreconfiguredPipeline.Stages;
 using KickOff;
+using KickOff.Host.Windows;
 using KickOff.Stages;
 
 namespace InternalPreconfiguredPipeline

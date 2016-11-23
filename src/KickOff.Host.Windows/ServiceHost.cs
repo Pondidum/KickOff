@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceProcess;
 
-namespace KickOff
+namespace KickOff.Host.Windows
 {
 	public static class ServiceHost
 	{

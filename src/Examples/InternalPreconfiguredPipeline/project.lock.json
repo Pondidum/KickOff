@@ -131,6 +131,23 @@
         "runtime": {
           "net452/KickOff.dll": {}
         }
+      },
+      "KickOff.Host.Windows/0.0.1": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.2",
+        "dependencies": {
+          "KickOff": "0.2.1",
+          "Microsoft.NETCore.Platforms": "1.0.1"
+        },
+        "frameworkAssemblies": [
+          "System.ServiceProcess"
+        ],
+        "compile": {
+          "net452/KickOff.Host.Windows.dll": {}
+        },
+        "runtime": {
+          "net452/KickOff.Host.Windows.dll": {}
+        }
       }
     }
   },
@@ -277,12 +294,18 @@
       "type": "project",
       "path": "../../KickOff/project.json",
       "msbuildProject": "../../KickOff/KickOff.xproj"
+    },
+    "KickOff.Host.Windows/0.0.1": {
+      "type": "project",
+      "path": "../../KickOff.Host.Windows/project.json",
+      "msbuildProject": "../../KickOff.Host.Windows/KickOff.Host.Windows.xproj"
     }
   },
   "projectFileDependencyGroups": {
     "": [
       "Consul >= 0.7.0.3",
       "KickOff >= 0.*",
+      "KickOff.Host.Windows >= 0.0.1",
       "Serilog >= 2.3.0",
       "Serilog.Sinks.ColoredConsole >= 2.0.0",
       "Serilog.Sinks.Elasticsearch >= 4.1.1",

@@ -2,6 +2,7 @@
 using System.Threading;
 using Consul;
 using KickOff;
+using KickOff.Host.Windows;
 using KickOff.Stages;
 using TestService.Stages;
 
