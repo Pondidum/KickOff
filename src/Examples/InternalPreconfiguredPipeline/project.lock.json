@@ -122,9 +122,6 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
         },
-        "frameworkAssemblies": [
-          "System.ServiceProcess"
-        ],
         "compile": {
           "net452/KickOff.dll": {}
         },

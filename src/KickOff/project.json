@@ -11,7 +11,6 @@
   "frameworks": {
     "net452": {
       "frameworkAssemblies": {
-        "System.ServiceProcess": "4.0.0.0"
       },
       "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
