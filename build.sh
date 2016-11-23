@@ -3,14 +3,12 @@
 # First parameter is build mode, defaults to Debug
 
 MODE=${1:-Debug}
-NAME="KickOff"
+
+mkdir -p ./build/deploy
 
 dotnet restore
 
-dotnet build ./src/$NAME --configuration $MODE
-dotnet build ./src/$NAME.Tests --configuration $MODE
-
-dotnet test ./src/$NAME.Tests --configuration $MODE
-
-mkdir -p ./build/deploy
-dotnet pack ./src/$NAME --configuration $MODE --output ./build/deploy
+dotnet build **/project.json --configuration $MODE
+dotnet test **/*.Tests --configuration $MODE
+dotnet pack ./src/KickOff --configuration $MODE --output ./build/deploy
+dotnet pack ./src/KickOff.Host.Windows --configuration $MODE --output ./build/deploy
