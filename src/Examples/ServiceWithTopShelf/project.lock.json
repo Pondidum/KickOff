@@ -25,15 +25,6 @@
           "lib/net45/Elasticsearch.Net.dll": {}
         }
       },
-      "Microsoft.NETCore.Platforms/1.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard1.0/_._": {}
-        },
-        "runtime": {
-          "lib/netstandard1.0/_._": {}
-        }
-      },
       "Serilog/2.3.0": {
         "type": "package",
         "compile": {
@@ -125,12 +116,9 @@
           "lib/net452/Topshelf.dll": {}
         }
       },
-      "KickOff/0.2.1": {
+      "KickOff/0.2.2": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.0.1"
-        },
         "compile": {
           "net452/KickOff.dll": {}
         },
@@ -170,19 +158,6 @@
         "lib/netstandard1.3/Elasticsearch.Net.dll",
         "lib/netstandard1.3/Elasticsearch.Net.pdb",
         "lib/netstandard1.3/Elasticsearch.Net.pdb.srcsrv"
-      ]
-    },
-    "Microsoft.NETCore.Platforms/1.0.1": {
-      "sha512": "bnZpgN6nVTcSYl5sOTFJNurm6+/RWU0sbZVQ8KDezwOivw6WNY8aj1TOBUzNII6eWyc8ItNZarGbaDK4401WmA==",
-      "type": "package",
-      "path": "Microsoft.NETCore.Platforms/1.0.1",
-      "files": [
-        "Microsoft.NETCore.Platforms.1.0.1.nupkg.sha512",
-        "Microsoft.NETCore.Platforms.nuspec",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/netstandard1.0/_._",
-        "runtime.json"
       ]
     },
     "Serilog/2.3.0": {
@@ -290,7 +265,7 @@
         "lib/net452/Topshelf.dll"
       ]
     },
-    "KickOff/0.2.1": {
+    "KickOff/0.2.2": {
       "type": "project",
       "path": "../../KickOff/project.json",
       "msbuildProject": "../../KickOff/KickOff.xproj"
@@ -307,7 +282,6 @@
       "Topshelf >= 4.0.3"
     ],
     ".NETFramework,Version=v4.5.2": [
-      "Microsoft.NETCore.Platforms >= 1.0.1",
       "System.ServiceProcess >= 4.0.0"
     ]
   },

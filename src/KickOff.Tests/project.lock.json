@@ -402,12 +402,9 @@
           "lib/net45/xunit.runner.utility.desktop.dll": {}
         }
       },
-      "KickOff/0.2.1": {
+      "KickOff/0.2.2": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.0.1"
-        },
         "compile": {
           "net452/KickOff.dll": {}
         },
@@ -419,8 +416,7 @@
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
         "dependencies": {
-          "KickOff": "0.2.1",
-          "Microsoft.NETCore.Platforms": "1.0.1"
+          "KickOff": "0.2.1"
         },
         "frameworkAssemblies": [
           "System.ServiceProcess"
@@ -1071,7 +1067,7 @@
         "xunit.runner.utility.nuspec"
       ]
     },
-    "KickOff/0.2.1": {
+    "KickOff/0.2.2": {
       "type": "project",
       "path": "../KickOff/project.json",
       "msbuildProject": "../KickOff/KickOff.xproj"
@@ -1091,9 +1087,7 @@
       "dotnet-test-xunit >= 2.2.0-preview2-build1029",
       "xunit >= 2.2.0-beta2-build3300"
     ],
-    ".NETFramework,Version=v4.5.2": [
-      "Microsoft.NETCore.Platforms >= 1.0.1"
-    ]
+    ".NETFramework,Version=v4.5.2": []
   },
   "tools": {},
   "projectFileToolGroups": {}
