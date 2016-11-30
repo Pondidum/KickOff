@@ -1,127 +1,66 @@
-# Service Container
+# KickOff
+A Microservice startup and shutdown pipeline
 
-A Microservice Infrstructue project - contains nearly all boilerplate for a microservice in c#.
+KickOff provides the basis to make a standard Microservice startup across all your systems.
 
-## Configuration
 
-You can configure some options of the ServiceContainer by implementing a couple of interfaces:
+## Usage - Windows Hosting
+*For console applications which can also be installed as Windows Services*
 
-### ElasticSearch/Kibana Logging
-
-```CSharp
-public class Config : ILogConfig
+* Install KickOff
+```
+PM> Install-Package KickOff.Host.Windows
+```
+* Create a new `ConsoleApplication`
+* Add a class to be your application's entry point - implement `IStartup`
+```csharp
+public class LogWriter : IStartup, IDisposable
 {
-    public bool EnableKibana { get { return Debugger.IsAttached == false; } }
-    public Uri LoggingEndpoint { get { return new Uri("http://localhost:9200"); } }
+	public LogWriter()
+	{
+		Console.WriteLine("starting up");
+	}
+
+	public void Execute(ServiceArgs service)
+	{
+		while (service.CancelRequested == false)
+		{
+			Console.Write(".");
+			Thread.Sleep(1000);
+		}
+	}
+
+	public void Dispose()
+	{
+		Console.WriteLine("shutting down");
+	}
 }
 ```
-
-### Consul Service Registration/Unregistration
-
-```CSharp
-public class Config : IConsulRegistration
+* Replace the application's `Program`'s `Main()` function with:
+```csharp
+ServiceHost.Run("TestService", new IStage[]
 {
-    public CatalogRegistration CreateRegistration()
-    {
-        return new CatalogRegistration() { Service = new AgentService
-        {
-            Address = "http://localhost",
-            Port = 8005,
-            Service = "TestService"
-        }};
-    }
-
-    public CatalogDeregistration CreateDeregistration()
-    {
-        return new CatalogDeregistration { ServiceID = "TestService" };
-    }
-}
-```
-You can of course combine both interface implementations into one class if you wish.
-
-### StructureMap Configuration
-
-The inbuilt StructureMap configuration is set to look for [Registries][structuremap-registry], so all you need to do is implement a Registry:
-
-```CSharp
-public class MyServiceRegistry: Registry
-{
-    public MyServiceRegistry()
-    {
-        For<ISomeDependency>().Use<SomeConcreteImplementation>();
-    }
-}
+    new ServiceMetadataStage(), //optional, but useful
+    // add other stages here, e.g.
+    // structuremap, simpleinjector, consul, serilog, etc.
+	new AsyncRunnerStage()
+});
 ```
 
-As the startup class is created by StructureMap, it supports constructor injection, so you can pass your configuration etc straight in:
 
-```CSharp
-public class Startup : IStartup
-{
-    private readonly Configuration _config;
-    private readonly ISomeDependency _dependency;
+## Usage - Pipeline Only - Hosting
+*For wrapping the pipeline in other hosting, such as OWIN, TopShelf etc.*
 
-    public Startup(Configuration config, ISomeDependency dependency)
-    {
-        _config = config;
-        _dependency = dependency;
-    }
-
-    public void Execute(ServiceArgs service)
-    {
-        //...
-    }
-}
+* Install KickOff
+```ps
+PM> Install-Package KickOff
 ```
 
-## Example
 
-```CSharp
-public class Program
-{
-    static void Main(string[] args)
-    {
-        ServiceHost.Run<Startup>("TestService");
-     }
-}
+## Usage - Pipeline Only - Packaging
+*For wrapping the pipeline in other hosting, such as OWIN, TopShelf etc.*
 
-public class Startup : IStartup, IDisposable
-{
-    private static readonly ILogger Log = Serilog.Log.ForContext<Startup>();
-
-    public Startup()
-    {
-        Log.Debug("Service Starting...")
-    }
-
-    public void Execute(ServiceArgs service)
-    {
-        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "activity.txt");
-        var i = 0;
-
-        while (service.CancelRequested == false)
-        {
-            File.WriteAllText(path, $"Iteration {i}.");
-            Thread.Sleep(500);
-        }
-    }
-
-    public void Dispose()
-    {
-        Log.Debug("Service Stopping...")
-    }
-}
+* Install KickOff
+```ps
+PM> Install-Package KickOff
 ```
-
-# Creating Your Own
-
-1. Fork the project
-2. Implement some custom `Stage` implementations
-3. Setup with implementations are used in `ServiceWrapper.cs`
-4. Pull Request?
-
-I have a [blog post about this project][blog-servicecontainer] which has an outline of why I am not supporting Stage configuration here.
-
-
-[structuremap-registry]: http://structuremap.github.io/registration/registry-dsl/
-[blog-servicecontainer]: http://andydote.co.uk/2016/07/17/preventing-microservice-boilerplate/
