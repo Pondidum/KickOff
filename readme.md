@@ -102,9 +102,43 @@ HostFactory.Run(x =>
 ```
 
 ## Usage - Pipeline Only - Packaging
-*For wrapping the pipeline in other hosting, such as OWIN, TopShelf etc.*
+*For creating your own standardised bootstrapper*
 
 * Install KickOff
 ```ps
 PM> Install-Package KickOff
 ```
+* For example, you could create a standardised Microservice startup nuget:
+```csharp
+public class Microservice
+{
+    public static void Run<TConfig>(string name, TConfig config)
+        where TConfig : ILoggerConfig, IRabbitMqConfig, IConsulConfig
+    {
+        ServiceHost.Run(name, new IStage[]
+        {
+            new ServiceMetadataStage(), //optional, but useful
+            new StructureMapStage(),
+            new ConsulStage(config),
+            new SerilogStage(config),
+            new RabbitMqStage(config),
+            new AsyncRunnerStage()
+        });
+    }
+}
+
+public interface ILoggerConfig
+{
+    string LogPath { get; }
+}
+
+public interface IRabbitMqConfig
+{
+    string Host { get; }
+    string User { get; }
+    string Password { get; }
+    IEnumerable<string> Queues { get; }
+}
+```
+* Create a Nuget of this, and use it in all your Microservices!
+* Looking for a way to load your Strong Typed configuration? [Checkout Stronk](github.com/pondidum/stronk/)!
