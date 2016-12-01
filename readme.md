@@ -3,8 +3,11 @@ A Microservice startup and shutdown pipeline
 
 KickOff provides the basis to make a standard Microservice startup across all your systems.
 
+## Usage
 
-## Usage - Windows Hosting
+There are 3 main ways of using KickOff: To host a Windows Service directly, to manage the startup via other hosting (such as TopShelf), or to wrap to create a standardised bootstrapper.
+
+### Windows Hosting
 *For console applications which can also be installed as Windows Services*
 
 * Install KickOff
@@ -42,13 +45,13 @@ ServiceHost.Run("TestService", new IStage[]
 {
     new ServiceMetadataStage(), //optional, but useful
     // add other stages here, e.g.
-    // structuremap, simpleinjector, consul, serilog, etc.
+    // StructureMap, SimpleInjector, consul, serilog, etc.
 	new AsyncRunnerStage()
 });
 ```
 
 
-## Usage - Pipeline Only - Hosting
+### Usage - Pipeline Only - Hosting
 *For wrapping the pipeline in other hosting, such as OWIN, TopShelf etc.*
 
 In this example, we will host the service using TopShelf
@@ -92,7 +95,7 @@ HostFactory.Run(x =>
 		{
             new ServiceMetadataStage(), //optional, but useful
             // add other stages here, e.g.
-            // structuremap, simpleinjector, consul, serilog, etc.
+            // StructureMap, SimpleInjector, consul, serilog, etc.
 			new AsyncRunnerStage(),
 		}));
 		s.WhenStarted(pipeline => pipeline.OnStart(args));
@@ -101,7 +104,7 @@ HostFactory.Run(x =>
 });
 ```
 
-## Usage - Pipeline Only - Packaging
+### Usage - Pipeline Only - Packaging
 *For creating your own standardised bootstrapper*
 
 * Install KickOff
@@ -142,3 +145,46 @@ public interface IRabbitMqConfig
 ```
 * Create a Nuget of this, and use it in all your Microservices!
 * Looking for a way to load your Strong Typed configuration? [Checkout Stronk](github.com/pondidum/stronk/)!
+
+## Authoring Stages
+
+KickOff doesn't come with many built in stages, as their construction and implementation are very diverse.  For example, which IoC Container should a stage use? I have a preference for StructureMap, but not everyone agrees with this, and relying on a container abstraction which hides all the great features of a container doesn't seem like a great idea.
+
+Stages tend to fall into one of three categories; Container Stages, Runner Stages and Other Stages.
+
+### Container Stages
+Container stages don't differ much from a normal stages, other than they overwrite the `StageArgs.InstanceFactory` property.
+You should make sure that the container can resolve the type `IStartup`, as this is what the Runner Stages request to actually launch your service!
+
+There is an example stage in the TestService project using StructureMap:
+
+```csharp
+public class ConfigureContainerStage : IStage
+{
+    private Container _container;
+
+    public virtual void OnStart(StageArgs args)
+    {
+        _container = new Container(c =>
+        {
+            c.Scan(a =>
+            {
+                a.TheCallingAssembly();
+                a.LookForRegistries();
+
+                a.Convention<AllInterfacesConvention>();
+                a.WithDefaultConventions();
+            });
+        });
+
+        args.InstanceFactory = _container.TryGetInstance;
+    }
+
+    public virtual void OnStop(StageArgs args)
+    {
+        _container?.Dispose();
+    }
+}
+```
+
+Generally it is a good idea to use some kind of Registry Location feature of your container (SimpleInjector supports this through `SimpleInjector.Packaging` nuget), as service can then have their own implementations without needing anything injected into the pipeline to do customisation.
