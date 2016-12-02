@@ -19,24 +19,24 @@ PM> Install-Package KickOff.Host.Windows
 ```csharp
 public class LogWriter : IStartup, IDisposable
 {
-	public LogWriter()
-	{
-		Console.WriteLine("starting up");
-	}
+    public LogWriter()
+    {
+        Console.WriteLine("starting up");
+    }
 
-	public void Execute(ServiceArgs service)
-	{
-		while (service.CancelRequested == false)
-		{
-			Console.Write(".");
-			Thread.Sleep(1000);
-		}
-	}
+    public void Execute(ServiceArgs service)
+    {
+        while (service.CancelRequested == false)
+        {
+            Console.Write(".");
+            Thread.Sleep(1000);
+        }
+    }
 
-	public void Dispose()
-	{
-		Console.WriteLine("shutting down");
-	}
+    public void Dispose()
+    {
+        Console.WriteLine("shutting down");
+    }
 }
 ```
 * Replace the application's `Program`'s `Main()` function with:
@@ -46,7 +46,7 @@ ServiceHost.Run("TestService", new IStage[]
     new ServiceMetadataStage(), //optional, but useful
     // add other stages here, e.g.
     // StructureMap, SimpleInjector, consul, serilog, etc.
-	new AsyncRunnerStage()
+    new AsyncRunnerStage()
 });
 ```
 
@@ -65,42 +65,42 @@ PM> Install-Package KickOff
 ```csharp
 public class LogWriter : IStartup, IDisposable
 {
-	public LogWriter()
-	{
-		Console.WriteLine("starting up");
-	}
+    public LogWriter()
+    {
+        Console.WriteLine("starting up");
+    }
 
-	public void Execute(ServiceArgs service)
-	{
-		while (service.CancelRequested == false)
-		{
-			Console.Write(".");
-			Thread.Sleep(1000);
-		}
-	}
+    public void Execute(ServiceArgs service)
+    {
+        while (service.CancelRequested == false)
+        {
+            Console.Write(".");
+            Thread.Sleep(1000);
+        }
+    }
 
-	public void Dispose()
-	{
-		Console.WriteLine("shutting down");
-	}
+    public void Dispose()
+    {
+        Console.WriteLine("shutting down");
+    }
 }
 ```
 * Replace the application's `Program`'s `Main()` function with:
 ```csharp
 HostFactory.Run(x =>
 {
-	x.Service<Pipeline>(s =>
-	{
-		s.ConstructUsing(name => new Pipeline(new IStage[]
-		{
+    x.Service<Pipeline>(s =>
+    {
+        s.ConstructUsing(name => new Pipeline(new IStage[]
+        {
             new ServiceMetadataStage(), //optional, but useful
             // add other stages here, e.g.
             // StructureMap, SimpleInjector, consul, serilog, etc.
-			new AsyncRunnerStage(),
-		}));
-		s.WhenStarted(pipeline => pipeline.OnStart(args));
-		s.WhenStopped(pipeline => pipeline.OnStop());
-	});
+            new AsyncRunnerStage(),
+        }));
+        s.WhenStarted(pipeline => pipeline.OnStart(args));
+        s.WhenStopped(pipeline => pipeline.OnStop());
+    });
 });
 ```
 
@@ -152,6 +152,30 @@ KickOff doesn't come with many built in stages, as their construction and implem
 
 Stages tend to fall into one of three categories; Container Stages, Runner Stages and Other Stages.
 
+
+### Normal Stages
+
+Stages have a very simple api - an `OnStart` and an `OnStop` method, both of which get a `StageArgs` parameter.
+
+```csharp
+public class SerilogStage : IStage
+{
+    public void OnStart(StageArgs args)
+    {
+    }
+
+    public void OnStop(StageArgs args)
+    {
+    }
+}
+```
+
+The `StageArgs` provides the following abilities:
+* `string[] StartArgs` - the arguments the application/pipeline was started with
+* `ServiceMetadata Metadata` - The Name and Description of the service, populated by the `ServiceMetadataStage`, which reads the provided Assembly's attributes.
+* `Func<Type, object> InstanceFactory` - primarily for overriding the dependency resolver used by the pipeline.  See Container Stages below.
+* `T TryGetInstance<T>()` - calls the `InstanceFactory` to create a type.
+
 ### Container Stages
 Container stages don't differ much from a normal stages, other than they overwrite the `StageArgs.InstanceFactory` property.
 You should make sure that the container can resolve the type `IStartup`, as this is what the Runner Stages request to actually launch your service!
@@ -188,3 +212,10 @@ public class ConfigureContainerStage : IStage
 ```
 
 Generally it is a good idea to use some kind of Registry Location feature of your container (SimpleInjector supports this through `SimpleInjector.Packaging` nuget), as service can then have their own implementations without needing anything injected into the pipeline to do customisation.
+
+### Runner Stages
+
+A Runner Stage only differs from a Normal Stage in that it is responsible for calling the `IStartup` implementation.
+KickOff comes with two Runners, the `RunnerStage` and `AsyncRunnerStage`.
+
+Generally speaking the `AsyncRunnerStage` is the one you should be using, as this will allow the `Start` method of the pipeline to complete (for example, the start method would be called by the OnStart handler of a Windows Service.)
