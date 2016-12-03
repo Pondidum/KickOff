@@ -107,7 +107,7 @@
           "lib/net45/StructureMap.dll": {}
         }
       },
-      "KickOff/0.2.2": {
+      "KickOff/1.0.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
         "compile": {
@@ -117,11 +117,11 @@
           "net452/KickOff.dll": {}
         }
       },
-      "KickOff.Host.Windows/0.0.1": {
+      "KickOff.Host.Windows/1.0.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
         "dependencies": {
-          "KickOff": "0.2.1"
+          "KickOff": "1.0.0"
         },
         "frameworkAssemblies": [
           "System.ServiceProcess"
@@ -261,12 +261,12 @@
         "structuremap.nuspec"
       ]
     },
-    "KickOff/0.2.2": {
+    "KickOff/1.0.0": {
       "type": "project",
       "path": "../../KickOff/project.json",
       "msbuildProject": "../../KickOff/KickOff.xproj"
     },
-    "KickOff.Host.Windows/0.0.1": {
+    "KickOff.Host.Windows/1.0.0": {
       "type": "project",
       "path": "../../KickOff.Host.Windows/project.json",
       "msbuildProject": "../../KickOff.Host.Windows/KickOff.Host.Windows.xproj"
@@ -275,8 +275,8 @@
   "projectFileDependencyGroups": {
     "": [
       "Consul >= 0.7.0.3",
-      "KickOff >= 0.*",
-      "KickOff.Host.Windows >= 0.0.1",
+      "KickOff >= 1.*",
+      "KickOff.Host.Windows >= 1.*",
       "Serilog >= 2.3.0",
       "Serilog.Sinks.ColoredConsole >= 2.0.0",
       "Serilog.Sinks.Elasticsearch >= 4.1.1",

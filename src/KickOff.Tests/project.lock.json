@@ -402,7 +402,7 @@
           "lib/net45/xunit.runner.utility.desktop.dll": {}
         }
       },
-      "KickOff/0.2.2": {
+      "KickOff/1.0.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
         "compile": {
@@ -412,11 +412,11 @@
           "net452/KickOff.dll": {}
         }
       },
-      "KickOff.Host.Windows/0.0.1": {
+      "KickOff.Host.Windows/1.0.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
         "dependencies": {
-          "KickOff": "0.2.1"
+          "KickOff": "1.0.0"
         },
         "frameworkAssemblies": [
           "System.ServiceProcess"
@@ -1067,12 +1067,12 @@
         "xunit.runner.utility.nuspec"
       ]
     },
-    "KickOff/0.2.2": {
+    "KickOff/1.0.0": {
       "type": "project",
       "path": "../KickOff/project.json",
       "msbuildProject": "../KickOff/KickOff.xproj"
     },
-    "KickOff.Host.Windows/0.0.1": {
+    "KickOff.Host.Windows/1.0.0": {
       "type": "project",
       "path": "../KickOff.Host.Windows/project.json",
       "msbuildProject": "../KickOff.Host.Windows/KickOff.Host.Windows.xproj"
@@ -1080,8 +1080,8 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "KickOff >= 0.*",
-      "KickOff.Host.Windows >= 0.0.1",
+      "KickOff >= 1.*",
+      "KickOff.Host.Windows >= 1.*",
       "NSubstitute >= 1.10.0",
       "Shouldly >= 2.8.1",
       "dotnet-test-xunit >= 2.2.0-preview2-build1029",

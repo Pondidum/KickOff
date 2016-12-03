@@ -3,7 +3,7 @@
   "version": 2,
   "targets": {
     ".NETFramework,Version=v4.5.2": {
-      "KickOff/0.2.2": {
+      "KickOff/1.0.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
         "compile": {
@@ -16,7 +16,7 @@
     }
   },
   "libraries": {
-    "KickOff/0.2.2": {
+    "KickOff/1.0.0": {
       "type": "project",
       "path": "../KickOff/project.json",
       "msbuildProject": "../KickOff/KickOff.xproj"
@@ -24,7 +24,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "KickOff >= 0.2.1"
+      "KickOff >= 1.*"
     ],
     ".NETFramework,Version=v4.5.2": [
       "System.ServiceProcess >= 4.0.0"
