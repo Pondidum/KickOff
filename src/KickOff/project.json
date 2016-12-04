@@ -5,7 +5,15 @@
 
   "authors": [ "Andy Dote" ],
   "packOptions": {
-    "projectUrl": "https://github.com/pondidum/KickOff"
+    "summary": "Microservice bootstrapper pipeline",
+    "projectUrl": "https://github.com/pondidum/KickOff",
+    "licenseUrl": "https://github.com/pondidum/KickOff/blob/master/LICENSE.txt",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/pondidum/KickOff"
+    },
+    "owners": [ "Andy Dote" ],
+    "tags": [ "microservice", "bootstrap", "pipeline", "boilerplate" ]
   },
 
   "frameworks": {

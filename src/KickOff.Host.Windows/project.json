@@ -3,7 +3,15 @@
   "description": "Microservice windows host",
   "authors": [ "Andy Dote" ],
   "packOptions": {
-    "projectUrl": "https://github.com/pondidum/KickOff"
+    "summary": "Windows Service integration for KickOff",
+    "projectUrl": "https://github.com/pondidum/KickOff",
+    "licenseUrl": "https://github.com/pondidum/KickOff/blob/master/LICENSE.txt",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/pondidum/KickOff"
+    },
+    "owners": [ "Andy Dote" ],
+    "tags": [ "microservice", "bootstrap", "pipeline", "boilerplate", "windowsservice", "service" ]
   },
   "frameworks": {
     "net452": {
